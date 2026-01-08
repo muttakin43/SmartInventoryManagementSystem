@@ -12,7 +12,7 @@ namespace SmartInventory.DAL.Interface
    public interface IProductRepository 
         : IRepository<Product,int,SmartInventoryDbContext>
     {
-
+        //Task AddAsync(Product product);
         int CountProduct();
     }
 }

@@ -16,14 +16,14 @@ namespace SmartInventory.DAL.Implementation
         {
         }
 
+     
+
         public int CountProduct()
         {
             return _dbSet.Count();
         }
-        public override async Task AddAsyc(Product entity)
-        {
-            await _dbSet.AddAsync(entity);
-        }
+     
 
+     
     }
 }

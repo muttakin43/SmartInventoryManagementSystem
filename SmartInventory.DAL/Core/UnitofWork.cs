@@ -11,10 +11,10 @@ namespace SmartInventory.DAL.Core
     public class UnitofWork : IUnitofWork
     {
         private bool _disposed;
-        private readonly DbContext _context;
+        private readonly SmartInventoryDbContext _context;
 
 
-        public UnitofWork(DbContext context)
+        public UnitofWork(SmartInventoryDbContext context)
         {
             _context = context;
         }
@@ -22,7 +22,7 @@ namespace SmartInventory.DAL.Core
 
         public bool SaveChanges()
         {
-            return _context.SaveChanges() > 0;
+            return _context?.SaveChanges() > 0;
         }
 
         public async Task<bool> SaveChangesAsync()
@@ -54,7 +54,7 @@ namespace SmartInventory.DAL.Core
             {
                 if (disposing)
                 {
-                    _context.Dispose();
+                    _context?.Dispose();
                 }
                 _disposed = true;
             }
