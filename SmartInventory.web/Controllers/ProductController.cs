@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartInventory.BLL.Inteface;
 using SmartInventory.Contract.Request;
+using SmartInventory.Contract.Response;
 using SmartInventory.DAL.Interface;
 using SmartInventory.Model;
 
@@ -17,12 +18,33 @@ namespace SmartInventory.web.Controllers
 
 
 
-        public async  Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var product = await _productService.GetallAsync();
           
-            return View(product.Data);
+          
+            return View();
         }
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> GetDataTables([FromForm] DataTablesRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest(new DataTablesResponse<Product>
+                {
+                    Draw = 0,
+                    RecordsTotal = 0,
+                    RecordsFiltered = 0,
+                    Data = new List<Product>(),
+                    Error = "Invalid request"
+                });
+            }
+
+            var response = await _productService.GetDataTablesAsync(request);
+            return Json(response);
+        }
+
 
         public IActionResult Create()
         {
@@ -102,7 +124,7 @@ namespace SmartInventory.web.Controllers
             return View(productResult.Data);
         }
 
-       
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _productService.DeleteAsync(id);

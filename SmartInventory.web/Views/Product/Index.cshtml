@@ -1,17 +1,13 @@
 ﻿@model IEnumerable<SmartInventory.Model.Product>
 
-@{
+﻿@{
     ViewData["HeaderTitle"] = "Products";
-    ViewData["BreadCrumbFirst"] = "Home";
-	ViewData["BreadCrumbActive"] = "Products List";
+    ViewData["BreadcrumbFirst"] = "Home";
+    ViewData["BreadcrumbActive"] = "Products List";
 }
-
-
-
 
 <div class="row">
     <div class="col">
-
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
@@ -19,79 +15,118 @@
                 </h3>
             </div>
             <div class="card-body">
-
+                @Html.AntiForgeryToken()
                 <style>
-                    #ProductDataTable th,
-                    #ProductDataTable td{
-                        vertical-align:middle !important;
+                    #productsDataTable th,
+                    #productsDataTable td {
+                        vertical-align: middle !important;
                         text-align: center;
                     }
                 </style>
-            <table id="ProductDataTable" class="table table-bordered table-striped">
+                <table id="productsDataTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Description)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Price)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.StockQuantit)
-</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>StockQuantit</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Price)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StockQuantit)
-                                </td>
-
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.id },new{@class="btn btn-sm btn-primary mr-1"}) 
-                                    @Html.ActionLink("Details", "Details", new { id = item.id }, new{ @class = "btn btn-sm btn-info mr-1"}) 
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.id }, new{ @class = "btn btn-sm btn-danger"})
-                                </td>
-                            </tr>
-                        }
                     </tbody>
-            </table>
+                </table>
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-<script src="~/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery -->
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables -->
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
-<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#productsDataTable").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "autoWidth": false,
+                "ajax": {
+                    "url": "@Url.Action("GetDataTables", "Product")",
+                    "type": "POST",
+                    "data": function (d) {
+                        // Map DataTables parameters to our request format
+                        var request = {
+                            draw: d.draw,
+                            start: d.start,
+                            length: d.length,
+                            search: {
+                                value: d.search.value,
+                                regex: d.search.regex
+                            },
+                            order: d.order.map(function (o) {
+                                return {
+                                    column: o.column,
+                                    dir: o.dir
+                                };
+                            }),
+                            columns: d.columns.map(function (c) {
+                                return {
+                                    data: c.data,
+                                    name: c.name,
+                                    searchable: c.searchable,
+                                    orderable: c.orderable,
+                                    search: {
+                                        value: c.search.value,
+                                        regex: c.search.regex
+                                    }
+                                };
+                            })
+                        };
+                        return request;
+                    }
+                },
+                "columns": [
+                    { "data": "name", "name": "Name", "orderable": true, "searchable": true },
+                    { "data": "description", "name": "Description", "orderable": true, "searchable": true },
+                    { "data": "price", "name": "Price", "orderable": true, "searchable": true },
+                    { "data": "stockQuantit", "name": "StockQuantit", "orderable": true, "searchable": true },
+                    {
+                        "data": null,
+                        "name": "Action",
+                        "orderable": false,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+                            var editUrl = '@Url.Action("Edit", "Product")/' + row.id;
+                            var detailsUrl = '@Url.Action("Details", "Product")/' + row.id;
+                            var deleteUrl = '@Url.Action("Delete", "Product")';
+                            var antiForgeryToken = '@Html.AntiForgeryToken()';
 
-<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-
-<script>
-        $("#ProductDataTable").DataTable({
-          "responsive": true,
-          "autoWidth": false,
+                            var editLink = '<a href="' + editUrl + '" class="btn btn-sm btn-primary mr-1">Edit</a>';
+                            var detailsLink = '<a href="' + detailsUrl + '" class="btn btn-sm btn-info mr-1">Details</a>';
+                            var productName = (row.name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                            var deleteForm = '<form action="' + deleteUrl + '" method="post" style="display: inline;" onsubmit="return confirmDelete(\'' + productName + '\');">' +
+                                '<input name="__RequestVerificationToken" type="hidden" value="' + $('input[name="__RequestVerificationToken"]').val() + '" />' +
+                                '<input type="hidden" name="id" value="' + row.id + '" />' +
+                                '<button type="submit" class="btn btn-sm btn-danger">Delete</button>' +
+                                '</form>';
+                            return editLink + ' ' + detailsLink + ' ' + deleteForm;
+                        }
+                    }
+                ]
+            });
         });
-</script>
 
+        function confirmDelete(productName) {
+            return confirm('Are you sure you want to delete "' + productName + '"? This action cannot be undone.');
+        }
+    </script>
 }
-
