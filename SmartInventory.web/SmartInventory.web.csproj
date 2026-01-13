@@ -15,11 +15,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.22" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SmartInventory.BLL\SmartInventory.BLL.csproj" />
-    <ProjectReference Include="..\SmartInventory.Model\SmartInventory.Model.csproj" />
+    <ProjectReference Include="..\SmartInventory.Contract\SmartInventory.Contract.csproj" />
   </ItemGroup>
 
 </Project>

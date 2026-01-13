@@ -22,8 +22,7 @@ namespace SmartInventory.DAL.Implementation
         {
             return _dbSet.Count();
         }
-     
 
-     
+        
     }
 }

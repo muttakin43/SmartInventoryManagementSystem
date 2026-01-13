@@ -1,11 +1,15 @@
 ﻿using SmartInventory.BLL.Inteface;
+using SmartInventory.BLL.Mapping;
+using SmartInventory.BLL.Model;
+using SmartInventory.Contract.Request;
+using SmartInventory.DAL.Implementation;
 using SmartInventory.DAL.Interface;
 using SmartInventory.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 
 namespace SmartInventory.BLL.Implementation
 {
@@ -17,46 +21,109 @@ namespace SmartInventory.BLL.Implementation
         {
             _productUnitofWork = productUnitofWork;
         }
-        public async Task AddAsync(Product product)
-        {
-           
-                await _productUnitofWork.ProductRepository.AddAsync(product);
-                await _productUnitofWork.SaveChangesAsync();
-        }
 
-        public async Task DeleteAsync(int id)
+
+        public async Task<Result<int>> AddAsync(CreateProductRequest product)
+        {
+            if (product is null)
+            {
+                return Result<int>.FailureResult("Product cannot be null");
+
+            }
+            var existProduct = await _productUnitofWork.ProductRepository.GetAsync(
+                x => x.id, x => x.Name == product.Name, null, null, false);
+            if (existProduct.Any())
+            {
+                return Result<int>.FailureResult("A product with the same already exist");
+            }
+
+
+
+            try
+            {
+                var newproduct = product.MapToProduct();
+                await _productUnitofWork.ProductRepository.AddAsync(newproduct);
+                var saved=await _productUnitofWork.SaveChangesAsync();
+
+                if (!saved)
+                {
+                    return Result<int>.FailureResult("Failed to save product");
+                }
+                return Result<int>.SuccessResult(newproduct.id);
+            }
+            catch (Exception )
+            {
+                return Result<int>.FailureResult("An error occurred while adding the product");
+            }
+        }
+     
+
+        public async Task<Result<bool>> DeleteAsync(int id)
         {
            var product=await _productUnitofWork.ProductRepository.GetByIdAsync(id);
-            if(product is not null)
+
+            if(product is null)
             {
-                await _productUnitofWork.ProductRepository.DeleteAsync(product);
+                return Result<bool>.FailureResult("Product not found");
             }
+            await _productUnitofWork.ProductRepository.DeleteAsync(product);
+            var saved= await _productUnitofWork.SaveChangesAsync();
+           if(!saved)
+            {
+                return Result<bool>.FailureResult("Failed to delete product");
+            }
+            return Result<bool>.SuccessResult(true);
         }
 
-        public Task<IList<Product>> GetallAsync()
+        public async Task<Result<IList<Product>>> GetallAsync()
         {
-           var products= _productUnitofWork.ProductRepository.GetAsync(x=> x, null, x=>x.OrderByDescending(x=>x.id),null,true);
-            return products;
+           var products=await _productUnitofWork.ProductRepository.GetAsync(
+               x=> x, null, 
+               x=>x.OrderByDescending(x=>x.id),null,true);
+            return Result<IList<Product>>.SuccessResult(products);
         }
 
-        public async Task<Product?> GetByIdAsync(int id)
+        public async Task<Result<Product>> GetByIdAsync(int id)
         {
             var product = await _productUnitofWork.ProductRepository.GetByIdAsync(id);
-            return product;
+          if(product is null)
+            {
+                return Result<Product>.FailureResult($"Product with id{id} is not found");
+            }
+            return Result<Product>.SuccessResult(product);
         }
 
-        public async Task UpdateAsync(Product product)
+        public async Task<Result<int>> UpdateAsync(UpdateProductRequest model)
         {
-            var existproduct = await _productUnitofWork.ProductRepository.GetByIdAsync(product.id); 
-
-            if (existproduct is not null)
+            if (model is null)
             {
-                existproduct.Name= product.Name;
-
-                await _productUnitofWork.ProductRepository.UpdateAsync(product);
-                await _productUnitofWork.SaveChangesAsync();
+                return Result<int>.FailureResult("Product data cannot be null.");
             }
 
+            var product = await _productUnitofWork.ProductRepository.GetByIdAsync(model.id);
+            if (product is null)
+            {
+                return Result<int>.FailureResult($"Product with id {model.id} was not found.");
+            }
+       
+
+            product.Name = model.Name;
+            product.Description = model.Description;
+            product.Price = model.Price;
+            product.StockQuantit = model.StockQuantit;
+
+            await _productUnitofWork.ProductRepository.UpdateAsync(product);
+
+            var saved = await _productUnitofWork.SaveChangesAsync();
+
+            if (!saved)
+            {
+                return Result<int>.FailureResult("Failed to update product.");
+            }
+
+            return Result<int>.SuccessResult(model.id);
         }
+
+
     }
 }

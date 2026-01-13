@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36414.22 d17.14
+VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventory.web", "SmartInventory.web\SmartInventory.web.csproj", "{9932567D-0851-4A30-9A35-3F4754798314}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventory.DAL", "SmartInventory.DAL\SmartInventory.DAL.csproj", "{0AD790A0-F310-4540-9A02-41385109F506}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventory.Model", "SmartInventory.Model\SmartInventory.Model.csproj", "{59927A4D-483E-4C66-9143-8040796B2D98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventory.Contract", "SmartInventory.Contract\SmartInventory.Contract.csproj", "{44B21833-EEA8-48F1-A8FA-E009633F3755}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{59927A4D-483E-4C66-9143-8040796B2D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59927A4D-483E-4C66-9143-8040796B2D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59927A4D-483E-4C66-9143-8040796B2D98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44B21833-EEA8-48F1-A8FA-E009633F3755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44B21833-EEA8-48F1-A8FA-E009633F3755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44B21833-EEA8-48F1-A8FA-E009633F3755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44B21833-EEA8-48F1-A8FA-E009633F3755}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

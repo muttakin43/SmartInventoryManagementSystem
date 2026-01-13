@@ -14,5 +14,6 @@ namespace SmartInventory.DAL.Interface
     {
         //Task AddAsync(Product product);
         int CountProduct();
+       
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartInventory.BLL.Inteface;
+using SmartInventory.Contract.Request;
 using SmartInventory.DAL.Interface;
 using SmartInventory.Model;
 
@@ -16,13 +17,105 @@ namespace SmartInventory.web.Controllers
 
 
 
-        public IActionResult Index()
+        public async  Task<IActionResult> Index()
         {
+            var product = await _productService.GetallAsync();
           
-            return View();
+            return View(product.Data);
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateProductRequest product)
+        {
+            if (ModelState.IsValid==false)
+            {
+                return View(product);
+            }
+            var result=await _productService.AddAsync(product);
+            if (result.Success) {
+                TempData["SuccessMessage"] = "Product Create Successfully";
+                    return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Error;
+                return View(product);
+            }
+            
+        }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            var productResult = await _productService.GetByIdAsync(id);
+
+            if (!productResult.Success || productResult.Data == null)
+            {
+                TempData["ErrorMessage"] = productResult.Error ?? "Product not found.";
+                return RedirectToAction("Index");
+            }
+
+            var product = productResult.Data;
+            var updateRequest = new UpdateProductRequest
+            {
+                id = product.id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                StockQuantit = product.StockQuantit
+            };
+
+            return View(updateRequest);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateProductRequest product)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return View(product);
+            }
+
+            var result = await _productService.UpdateAsync(product);
+            if (result.Success)
+            {
+                TempData["SuccessMessage"] = "Product updated successfully!";
+                return RedirectToAction("Index");
+            }
+
+            TempData["ErrorMessage"] = result.Error ?? "An error occurred while updating the product.";
+            return View(product);
+        }
+        public async Task<IActionResult> Details(int id)
+        {
+            var productResult = await _productService.GetByIdAsync(id);
+
+            if (!productResult.Success || productResult.Data == null)
+            {
+                TempData["ErrorMessage"] = productResult.Error ?? "Product not found.";
+                return RedirectToAction("Index");
+            }
+
+            return View(productResult.Data);
+        }
+
+       
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _productService.DeleteAsync(id);
+            if (result.Success)
+            {
+                TempData["SuccessMessage"] = "Product deleted successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Error ?? "An error occurred while deleting the product.";
+            }
+            return RedirectToAction("Index");
+        }
     }
 
 }

@@ -1,4 +1,6 @@
-﻿using SmartInventory.Model;
+﻿using SmartInventory.BLL.Model;
+using SmartInventory.Contract.Request;
+using SmartInventory.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +11,14 @@ namespace SmartInventory.BLL.Inteface
 {
     public interface IProductService
     {
-        Task<IList<Product>> GetallAsync();
-        Task<Product> GetByIdAsync(int id);
+        Task<Result<IList<Product>>> GetallAsync();
+        Task<Result<Product>> GetByIdAsync(int id);
 
-        
-        Task AddAsync(Product product);
 
-        Task UpdateAsync(Product product);
+        Task<Result<int>> AddAsync(CreateProductRequest product);
 
-        Task DeleteAsync(int id);
+        Task<Result<int>> UpdateAsync(UpdateProductRequest product);
+
+        Task<Result<bool>> DeleteAsync(int id);
     }
 }
