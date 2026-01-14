@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SmartInventory.DAL.Content;
+using SmartInventory.Model;
 using SmartInventory.web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,10 +15,32 @@ builder.Services.AddDbContext<SmartInventoryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("InventoryConnection"));
 });
 
+builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options=>
+
+{
+    // Password settings
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+
+    // User settings
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
+})
+.AddEntityFrameworkStores<SmartInventoryDbContext>()
+.AddDefaultTokenProviders();
+
 builder.Services.AddRepositories();
 builder.Services.AddServices();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    await SmartInventory.web.Data.DbInitializer.InitalizerAsync(scope.ServiceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
