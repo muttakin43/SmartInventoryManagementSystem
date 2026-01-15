@@ -32,6 +32,16 @@ builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options=>
 .AddEntityFrameworkStores<SmartInventoryDbContext>()
 .AddDefaultTokenProviders();
 
+
+builder.Services.ConfigureApplicationCookie(options=>
+{
+    options.LoginPath="/Account/Login";
+    options.LogoutPath="/Account/Logout";
+    options.AccessDeniedPath="/Account/AccessDenied";
+    options.ExpireTimeSpan=TimeSpan.FromMinutes(60);
+    options.SlidingExpiration=true;
+});
+
 builder.Services.AddRepositories();
 builder.Services.AddServices();
 
@@ -54,7 +64,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

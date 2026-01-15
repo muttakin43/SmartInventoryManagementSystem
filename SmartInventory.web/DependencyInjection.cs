@@ -16,7 +16,7 @@ namespace SmartInventory.web
         }
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            // Register repositories here
+            // Register Services here
             services.AddScoped<IProductService, ProductService>();
            
             return services;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartInventory.BLL.Inteface;
 using SmartInventory.Contract.Request;
 using SmartInventory.Contract.Response;
@@ -7,6 +8,7 @@ using SmartInventory.Model;
 
 namespace SmartInventory.web.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
