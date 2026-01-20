@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventory.Model", "Sma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventory.Contract", "SmartInventory.Contract\SmartInventory.Contract.csproj", "{44B21833-EEA8-48F1-A8FA-E009633F3755}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventory.API", "SmartInventory.API\SmartInventory.API.csproj", "{CAF5185C-EB73-4F2A-B863-11CC486BFC87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{44B21833-EEA8-48F1-A8FA-E009633F3755}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44B21833-EEA8-48F1-A8FA-E009633F3755}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44B21833-EEA8-48F1-A8FA-E009633F3755}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAF5185C-EB73-4F2A-B863-11CC486BFC87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAF5185C-EB73-4F2A-B863-11CC486BFC87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAF5185C-EB73-4F2A-B863-11CC486BFC87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAF5185C-EB73-4F2A-B863-11CC486BFC87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
