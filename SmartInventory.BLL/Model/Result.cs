@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartInventory.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,5 +30,9 @@ namespace SmartInventory.BLL.Model
             return new Result<T>(false, default, error);
         }
 
+        internal static Result<Category> SuccessResult(Task<Category> category)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

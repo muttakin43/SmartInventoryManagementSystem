@@ -15,7 +15,8 @@ namespace SmartInventory.BLL.Mapping
           
             return new Product
             {
-                Name = request.Name,
+                
+                ProductName = request.Name,
                 Description = request.Description,
                 Price = request.Price,
                 StockQuantit = request.StockQuantit,
@@ -23,5 +24,8 @@ namespace SmartInventory.BLL.Mapping
                 CreatedBy= 1
             };
         }
+
+
+      
     }
 }

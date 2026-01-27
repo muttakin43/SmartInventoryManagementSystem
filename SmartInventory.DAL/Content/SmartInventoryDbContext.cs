@@ -16,6 +16,25 @@ public class SmartInventoryDbContext : IdentityDbContext<ApplicationUser,Identit
     {
 
     }
-    DbSet<Product> Products { get; set; }
-} }
+   public  DbSet<Product> Products { get; set; }
+  public  DbSet<Category> Categories { get; set; }
+
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            // Configure relationships and constraints if needed
+            builder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.SetNull);
+        }
+
+        
+
+
+
+    } }
 

@@ -33,7 +33,7 @@ namespace SmartInventory.BLL.Implementation
 
             }
             var existProduct = await _productUnitofWork.ProductRepository.GetAsync(
-                x => x.id, x => x.Name == product.Name, null, null, false);
+                x => x.id, x => x.ProductName == product.Name, null, null, false);
             if (existProduct.Any())
             {
                 return Result<int>.FailureResult("A product with the same already exist");
@@ -110,7 +110,7 @@ namespace SmartInventory.BLL.Implementation
             // Check if another product with the same name already exists
             var existProduct = await _productUnitofWork.ProductRepository.GetAsync(
                 x => x.id,
-                x => x.Name == model.Name && x.id != model.id, // exclude current product
+                x => x.ProductName == model.Name && x.id != model.id, // exclude current product
                 null,
                 null,
                 false
@@ -122,7 +122,7 @@ namespace SmartInventory.BLL.Implementation
             }
 
 
-            product.Name = model.Name;
+            product.ProductName = model.Name;
             product.Description = model.Description;
             product.Price = model.Price;
             product.StockQuantit = model.StockQuantit;
@@ -151,7 +151,7 @@ namespace SmartInventory.BLL.Implementation
                     {
                         var lowerSearch = searchValue.ToLower();
                         return p =>
-                            p.Name.ToLower().Contains(lowerSearch) ||
+                            p.ProductName.ToLower().Contains(lowerSearch) ||
                             p.Description.ToLower().Contains(lowerSearch) ||
                             p.Price.ToString().Contains(searchValue) ||
                             p.StockQuantit.ToString().Contains(searchValue);
@@ -175,8 +175,8 @@ namespace SmartInventory.BLL.Implementation
                         orderBy = columnKey switch
                         {
                             "name" => isAscending
-                                ? q => q.OrderBy(p => p.Name)
-                                : q => q.OrderByDescending(p => p.Name),
+                                ? q => q.OrderBy(p => p.ProductName)
+                                : q => q.OrderByDescending(p => p.ProductName),
                             "description" => isAscending
                                 ? q => q.OrderBy(p => p.Description)
                                 : q => q.OrderByDescending(p => p.Description),

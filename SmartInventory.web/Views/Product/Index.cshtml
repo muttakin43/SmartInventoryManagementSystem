@@ -26,7 +26,7 @@
                 <table id="productsDataTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Product Name</th>
                             <th>Description</th>
                             <th>Price</th>
                             <th>StockQuantit</th>
@@ -94,34 +94,33 @@
                         return request;
                     }
                 },
-                "columns": [
-                    { "data": "name", "name": "Name", "orderable": true, "searchable": true },
-                    { "data": "description", "name": "Description", "orderable": true, "searchable": true },
-                    { "data": "price", "name": "Price", "orderable": true, "searchable": true },
-                    { "data": "stockQuantit", "name": "StockQuantit", "orderable": true, "searchable": true },
-                    {
-                        "data": null,
-                        "name": "Action",
-                        "orderable": false,
-                        "searchable": false,
-                        "render": function (data, type, row) {
-                            var editUrl = '@Url.Action("Edit", "Product")/' + row.id;
-                            var detailsUrl = '@Url.Action("Details", "Product")/' + row.id;
-                            var deleteUrl = '@Url.Action("Delete", "Product")';
-                            var antiForgeryToken = '@Html.AntiForgeryToken()';
+                        "columns": [
+            { "data": "productName", "name": "ProductName", "orderable": true, "searchable": true },
+            { "data": "description", "name": "Description", "orderable": true, "searchable": true },
+            { "data": "price", "name": "Price", "orderable": true, "searchable": true },
+            { "data": "stockQuantit", "name": "StockQuantit", "orderable": true, "searchable": true },
+            {
+                "data": null,
+                "name": "Action",
+                "orderable": false,
+                "searchable": false,
+                "render": function (data, type, row) {
+                    var editUrl = '@Url.Action("Edit", "Product")/' + row.id;
+                    var detailsUrl = '@Url.Action("Details", "Product")/' + row.id;
+                    var deleteUrl = '@Url.Action("Delete", "Product")';
 
-                            var editLink = '<a href="' + editUrl + '" class="btn btn-sm btn-primary mr-1">Edit</a>';
-                            var detailsLink = '<a href="' + detailsUrl + '" class="btn btn-sm btn-info mr-1">Details</a>';
-                            var productName = (row.name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                            var deleteForm = '<form action="' + deleteUrl + '" method="post" style="display: inline;" onsubmit="return confirmDelete(\'' + productName + '\');">' +
-                                '<input name="__RequestVerificationToken" type="hidden" value="' + $('input[name="__RequestVerificationToken"]').val() + '" />' +
-                                '<input type="hidden" name="id" value="' + row.id + '" />' +
-                                '<button type="submit" class="btn btn-sm btn-danger">Delete</button>' +
-                                '</form>';
-                            return editLink + ' ' + detailsLink + ' ' + deleteForm;
-                        }
-                    }
-                ]
+                    var editLink = '<a href="' + editUrl + '" class="btn btn-sm btn-primary mr-1">Edit</a>';
+                    var detailsLink = '<a href="' + detailsUrl + '" class="btn btn-sm btn-info mr-1">Details</a>';
+                    var productName = (row.productName || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    var deleteForm = '<form action="' + deleteUrl + '" method="post" style="display: inline;" onsubmit="return confirmDelete(\'' + productName + '\');">' +
+                        '<input name="__RequestVerificationToken" type="hidden" value="' + $('input[name="__RequestVerificationToken"]').val() + '" />' +
+                        '<input type="hidden" name="id" value="' + row.id + '" />' +
+                        '<button type="submit" class="btn btn-sm btn-danger">Delete</button>' +
+                        '</form>';
+                    return editLink + ' ' + detailsLink + ' ' + deleteForm;
+                }
+            }
+        ]
             });
         });
 

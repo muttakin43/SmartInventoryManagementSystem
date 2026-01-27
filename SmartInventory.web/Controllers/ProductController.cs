@@ -86,7 +86,7 @@ namespace SmartInventory.web.Controllers
             var updateRequest = new UpdateProductRequest
             {
                 id = product.id,
-                Name = product.Name,
+                Name = product.ProductName,
                 Description = product.Description,
                 Price = product.Price,
                 StockQuantit = product.StockQuantit

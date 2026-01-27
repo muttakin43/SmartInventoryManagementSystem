@@ -9,11 +9,8 @@ using System.Threading.Tasks;
 
 namespace SmartInventory.DAL.Interface
 {
-    public interface IProductRepository
-         : IRepository<Product, int, SmartInventoryDbContext>
+    public interface ICategoryRepository : IRepository<Category, int, SmartInventoryDbContext>
     {
-        //Task AddAsync(Product product);
-        int CountProduct();
-
+        Task<int> CountCategoriesAsync();
     }
 }
