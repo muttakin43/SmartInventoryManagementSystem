@@ -12,10 +12,11 @@ namespace SmartInventory.web.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-
-        public ProductController(IProductService productService)
+        private readonly ICategoryService _categoryService;
+        public ProductController(IProductService productService,ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         }
 
 
@@ -48,8 +49,10 @@ namespace SmartInventory.web.Controllers
         }
 
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var categories=await _categoryService.GetallAsync();
+            ViewBag.Categories = categories.Data;
             return View();
         }
         [HttpPost]
@@ -57,6 +60,8 @@ namespace SmartInventory.web.Controllers
         {
             if (ModelState.IsValid==false)
             {
+                var categories = await _categoryService.GetallAsync();
+                ViewBag.Categories = categories.Data;
                 return View(product);
             }
             var result=await _productService.AddAsync(product);
@@ -89,8 +94,11 @@ namespace SmartInventory.web.Controllers
                 Name = product.ProductName,
                 Description = product.Description,
                 Price = product.Price,
-                StockQuantit = product.StockQuantit
+                StockQuantit = product.StockQuantit,
+                CategoryId = product.CategoryId
             };
+            var categories = await _categoryService.GetallAsync();
+            ViewBag.Categories = categories.Data;
 
             return View(updateRequest);
         }
@@ -100,6 +108,8 @@ namespace SmartInventory.web.Controllers
         {
             if (ModelState.IsValid == false)
             {
+                var categories = await _categoryService.GetallAsync();
+                ViewBag.Categories = categories.Data;
                 return View(product);
             }
 
@@ -129,6 +139,7 @@ namespace SmartInventory.web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+
             var result = await _productService.DeleteAsync(id);
             if (result.Success)
             {

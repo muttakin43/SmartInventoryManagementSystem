@@ -12,13 +12,16 @@ namespace SmartInventory.web
             // Register repositories here
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductUnitofWork, ProductUnitofWork>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryUnitOfWork, CategoryUnitOfWork>();
             return services;
         }
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             // Register Services here
             services.AddScoped<IProductService, ProductService>();
-           
+            services.AddScoped<ICategoryService, CategoryService>();
+
             return services;
         }
     }

@@ -126,6 +126,7 @@ namespace SmartInventory.BLL.Implementation
             product.Description = model.Description;
             product.Price = model.Price;
             product.StockQuantit = model.StockQuantit;
+            product.CategoryId = model.CategoryId;
 
             await _productUnitofWork.ProductRepository.UpdateAsync(product);
 

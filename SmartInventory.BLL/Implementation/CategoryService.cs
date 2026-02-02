@@ -1,5 +1,7 @@
 ﻿using SmartInventory.BLL.Inteface;
+using SmartInventory.BLL.Mapping;
 using SmartInventory.BLL.Model;
+using SmartInventory.Contract.Request;
 using SmartInventory.DAL.Interface;
 using SmartInventory.Model;
 using System;
@@ -18,7 +20,7 @@ namespace SmartInventory.BLL.Implementation
         {
             _categoryUnitofWork = categoryUnitofWork;
         }
-        public async Task<Result<int>> AddAsync(Category category)
+        public async Task<Result<int>> AddAsync(CreateCategoryRequest category)
         {
             if (category is null)
             {
@@ -35,13 +37,14 @@ namespace SmartInventory.BLL.Implementation
 
             try
             {
-                await _categoryUnitofWork.CategoryRepository.AddAsync(category);
+                var newcategory=category.MapToCategory();
+                await _categoryUnitofWork.CategoryRepository.AddAsync(newcategory);
                 var saved = await _categoryUnitofWork.SaveChangesAsync();
                 if (!saved)
                 {
                     return Result<int>.FailureResult("Failed to save category");
                 }
-                return Result<int>.SuccessResult(category.id);
+                return Result<int>.SuccessResult(newcategory.id);
             }
             catch (Exception)
             {
@@ -91,20 +94,20 @@ namespace SmartInventory.BLL.Implementation
             return Result<Category>.SuccessResult(Category);
         }
 
-        public async Task<Result<int>> UpdateAsync(Category category)
+        public async Task<Result<int>> UpdateAsync(UpdateCategoryRequest model)
         {
-            if (category is null)
+            if (model is null)
             {
                 return Result<int>.FailureResult("Category cannot be null");
             }
-            var Category = await _categoryUnitofWork.CategoryRepository.GetByIdAsync(category.id);
+            var Category = await _categoryUnitofWork.CategoryRepository.GetByIdAsync(model.id);
           if (Category is null)
             {
-                return Result<int>.FailureResult($"Category with id {category.id} was not found.");
+                return Result<int>.FailureResult($"Category with id {model.id} was not found.");
             }
 
           var isExist = await _categoryUnitofWork.CategoryRepository.IsExistAsync(
-              x => x.CategoryName == category.CategoryName && x.id != category.id);
+              x => x.CategoryName == model.CategoryName && x.id != model.id);
 
             if (isExist)
             {
@@ -112,8 +115,8 @@ namespace SmartInventory.BLL.Implementation
 
             }
 
-            Category.CategoryName = category.CategoryName;
-            Category.Description = category.Description;
+            Category.CategoryName = model.CategoryName;
+            Category.Description = model.Description;
 
             await _categoryUnitofWork.CategoryRepository.UpdateAsync(Category);
 
@@ -124,7 +127,7 @@ namespace SmartInventory.BLL.Implementation
             {
                 return Result<int>.FailureResult("Failed to update category");
             }
-            return Result<int>.SuccessResult(category.id);
+            return Result<int>.SuccessResult(model.id);
 
 
         }

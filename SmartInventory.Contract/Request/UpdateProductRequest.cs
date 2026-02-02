@@ -15,5 +15,6 @@ namespace SmartInventory.Contract.Request
         public decimal Price {  get; set; }
 
         public int StockQuantit { get; set; }
+        public int? CategoryId { get; set; }
     }
 }

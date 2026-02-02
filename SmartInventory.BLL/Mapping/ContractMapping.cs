@@ -20,12 +20,24 @@ namespace SmartInventory.BLL.Mapping
                 Description = request.Description,
                 Price = request.Price,
                 StockQuantit = request.StockQuantit,
-                CreatedTime=DateTime.Now,
+                CategoryId = request.CategoryId,
+                CreatedTime =DateTime.Now,
                 CreatedBy= 1
             };
         }
 
+        public static Category MapToCategory(this CreateCategoryRequest request)
+        {
+            return new Category
+            {
+                CategoryName = request.CategoryName,
+                Description = request.Description,
+                CreatedTime = DateTime.Now,
+                CreatedBy = 1
+            };
+        }
 
-      
+
+
     }
 }
