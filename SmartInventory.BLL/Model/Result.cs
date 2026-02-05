@@ -30,9 +30,6 @@ namespace SmartInventory.BLL.Model
             return new Result<T>(false, default, error);
         }
 
-        internal static Result<Category> SuccessResult(Task<Category> category)
-        {
-            throw new NotImplementedException();
-        }
+    
     }
 }

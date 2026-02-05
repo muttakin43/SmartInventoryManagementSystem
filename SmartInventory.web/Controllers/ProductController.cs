@@ -52,8 +52,8 @@ namespace SmartInventory.web.Controllers
         public async Task<IActionResult> Create()
         {
             var categories=await _categoryService.GetallAsync();
-            ViewBag.Categories = categories.Data;
-            return View();
+            ViewBag.Categories = categories.Data ?? new List<Category>();
+            return View(new CreateProductRequest());
         }
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductRequest product)
@@ -98,7 +98,8 @@ namespace SmartInventory.web.Controllers
                 CategoryId = product.CategoryId
             };
             var categories = await _categoryService.GetallAsync();
-            ViewBag.Categories = categories.Data;
+            ViewBag.Categories = categories.Data ?? new List<Category>();
+
 
             return View(updateRequest);
         }
@@ -109,7 +110,8 @@ namespace SmartInventory.web.Controllers
             if (ModelState.IsValid == false)
             {
                 var categories = await _categoryService.GetallAsync();
-                ViewBag.Categories = categories.Data;
+                ViewBag.Categories = categories.Data ?? new List<Category>();
+
                 return View(product);
             }
 

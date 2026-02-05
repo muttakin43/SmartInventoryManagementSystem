@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartInventory.BLL.Inteface;
 using SmartInventory.Contract.Request;
+using SmartInventory.Model;
 
 namespace SmartInventory.web.Controllers
 {
@@ -16,9 +17,17 @@ namespace SmartInventory.web.Controllers
             _categoryService = categoryService;
             
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var result = await _categoryService.GetallAsync();
+
+            if (!result.Success)
+            {
+                TempData["ErrorMessage"] = result.Error;
+                return View(new List<Category>());
+            }
+
+            return View(result.Data);
         }
 
         public async Task<IActionResult> Create()

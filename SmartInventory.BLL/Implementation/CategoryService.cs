@@ -86,12 +86,16 @@ namespace SmartInventory.BLL.Implementation
 
         public async Task<Result<Category>> GetByIdAsync(int id)
         {
-            var Category = _categoryUnitofWork.CategoryRepository.GetByIdAsync(id);
-            if (Category is null)
+            var category = await _categoryUnitofWork
+                .CategoryRepository
+                .GetByIdAsync(id);
+
+            if (category == null)
             {
-                return Result<Category>.FailureResult($"Category with id{id} is not found");
+                return Result<Category>.FailureResult($"Category with id {id} not found");
             }
-            return Result<Category>.SuccessResult(Category);
+
+            return Result<Category>.SuccessResult(category);
         }
 
         public async Task<Result<int>> UpdateAsync(UpdateCategoryRequest model)
