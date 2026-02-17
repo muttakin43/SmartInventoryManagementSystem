@@ -6,7 +6,7 @@ using SmartInventory.Contract.Request;
 
 namespace SmartInventory.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace SmartInventory.API.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
+        [HttpGet(ApiEndpoint.Product.GetAll)]
         public async Task<IActionResult> GetAll()
         {
             var result = await _productService.GetallAsync();
@@ -28,7 +28,7 @@ namespace SmartInventory.API.Controllers
             return BadRequest(result.Error);
         }
 
-        [HttpGet("{productId}")]
+        [HttpGet(ApiEndpoint.Product.Get)]
 
         public async Task<IActionResult> GetById(int productId)
         {
@@ -39,7 +39,7 @@ namespace SmartInventory.API.Controllers
             }
             return NotFound(new { message = "Product not found" });
         }
-        [HttpPost]
+        [HttpPost(ApiEndpoint.Product.Create)]
         public async Task<IActionResult> Create([FromBody] CreateProductRequest request)
         {
             if (!ModelState.IsValid)
@@ -54,7 +54,7 @@ namespace SmartInventory.API.Controllers
             return BadRequest(result.Error);
         }
 
-        [HttpDelete("{productId}")]
+        [HttpDelete(ApiEndpoint.Product.Delete)]
 
         public async Task<IActionResult> Delete(int productId)
         {
@@ -71,7 +71,7 @@ namespace SmartInventory.API.Controllers
             return NoContent();
 
         }
-        [HttpPut("{productId}")]
+        [HttpPut(ApiEndpoint.Product.Update)]
         public async  Task<IActionResult> Update(int productId , [FromBody] UpdateProductRequest request)
         {
            
