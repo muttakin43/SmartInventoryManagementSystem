@@ -19,55 +19,114 @@
             </div>
 
             <div class="card-body">
+                @Html.AntiForgeryToken()
 
-                @if (Model == null || !Model.Any())
-                {
-                    <div class="alert alert-info text-center">
-                        No category found.
-                    </div>
-                }
-                else
-                {
-                    <table class="table table-bordered table-striped text-center">
-                        <thead>
-                            <tr>
-                                <th>Category Name</th>
-                                <th>Description</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
+                <style>
+                    #categoryDataTable th,
+                    #categoryDataTable td {
+                        vertical-align: middle !important;
+                        text-align: center;
+                    }
+                </style>
 
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@item.CategoryName</td>
-                                    <td>@item.Description</td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.id"
-                                           class="btn btn-sm btn-primary">Edit</a>
-
-                                        <a asp-action="Details" asp-route-id="@item.id"
-                                           class="btn btn-sm btn-info">Details</a>
-
-                                        <form asp-action="Delete" method="post"
-                                              style="display:inline"
-                                              onsubmit="return confirm('Are you sure you want to delete this category?');">
-                                            <input type="hidden" name="id" value="@item.id" />
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-danger">
-                                                Delete
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
+                <table id="categoryDataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
 
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <!-- jQuery -->
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables -->
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#categoryDataTable").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "autoWidth": false,
+                "ajax": {
+                    "url": "@Url.Action("GetDataTables", "Category")",
+                    "type": "POST",
+                    "data": function (d) {
+                        return {
+                            draw: d.draw,
+                            start: d.start,
+                            length: d.length,
+                            search: {
+                                value: d.search.value,
+                                regex: d.search.regex
+                            },
+                            order: d.order.map(o => ({
+                                column: o.column,
+                                dir: o.dir
+                            })),
+                            columns: d.columns.map(c => ({
+                                data: c.data,
+                                name: c.name,
+                                searchable: c.searchable,
+                                orderable: c.orderable,
+                                search: {
+                                    value: c.search.value,
+                                    regex: c.search.regex
+                                }
+                            }))
+                        };
+                    }
+                },
+                "columns": [
+                    { "data": "categoryName", "name": "CategoryName", "orderable": true, "searchable": true },
+                    { "data": "description", "name": "Description", "orderable": true, "searchable": true },
+                    {
+                        "data": null,
+                        "name": "Action",
+                        "orderable": false,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+
+                            var editUrl = '@Url.Action("Edit", "Category")/' + row.id;
+                            var detailsUrl = '@Url.Action("Details", "Category")/' + row.id;
+                            var deleteUrl = '@Url.Action("Delete", "Category")';
+
+                            var editLink = '<a href="' + editUrl + '" class="btn btn-sm btn-primary mr-1">Edit</a>';
+                            var detailsLink = '<a href="' + detailsUrl + '" class="btn btn-sm btn-info mr-1">Details</a>';
+
+                            var categoryName = (row.categoryName || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+                            var deleteForm = '<form action="' + deleteUrl + '" method="post" style="display:inline;" onsubmit="return confirmDelete(\'' + categoryName + '\');">' +
+                                '<input name="__RequestVerificationToken" type="hidden" value="' + $('input[name="__RequestVerificationToken"]').val() + '" />' +
+                                '<input type="hidden" name="id" value="' + row.id + '" />' +
+                                '<button type="submit" class="btn btn-sm btn-danger">Delete</button>' +
+                                '</form>';
+
+                            return editLink + ' ' + detailsLink + ' ' + deleteForm;
+                        }
+                    }
+                ]
+            });
+        });
+
+        function confirmDelete(categoryName) {
+            return confirm('Are you sure you want to delete "' + categoryName + '"?');
+        }
+    </script>
+}

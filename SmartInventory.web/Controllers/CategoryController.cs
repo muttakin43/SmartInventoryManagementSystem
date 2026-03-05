@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartInventory.BLL.Inteface;
 using SmartInventory.Contract.Request;
+using SmartInventory.Contract.Response;
 using SmartInventory.Model;
 
 namespace SmartInventory.web.Controllers
@@ -17,23 +18,36 @@ namespace SmartInventory.web.Controllers
             _categoryService = categoryService;
             
         }
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            var result = await _categoryService.GetallAsync();
+           
 
-            if (!result.Success)
+            return View();
+        }
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> GetDataTables([FromForm] DataTablesRequest request)
+        {
+            if (request == null)
             {
-                TempData["ErrorMessage"] = result.Error;
-                return View(new List<Category>());
+                return BadRequest(new DataTablesResponse<Category>
+                {
+                    Draw = 0,
+                    RecordsTotal = 0,
+                    RecordsFiltered = 0,
+                    Data = new List<Category>(),
+                    Error = "Invalid request"
+                });
             }
-
-            return View(result.Data);
+            var response = await _categoryService.GetDataTablesAsync(request);
+            return Json(response);
         }
 
         public async Task<IActionResult> Create()
         {
             return View();
         }
+        
         [HttpPost]
         public async Task<IActionResult> Create(CreateCategoryRequest category)
         {

@@ -19,6 +19,12 @@ public class SmartInventoryDbContext : IdentityDbContext<ApplicationUser,Identit
    public  DbSet<Product> Products { get; set; }
   public  DbSet<Category> Categories { get; set; }
 
+        public DbSet<Supplier> Suppliers { get; set; }
+
+        public DbSet<Purchase> Purchases { get; set; }
+
+        public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -30,6 +36,27 @@ public class SmartInventoryDbContext : IdentityDbContext<ApplicationUser,Identit
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            // 🔥 Supplier → Purchase (1 to many)
+            builder.Entity<Purchase>()
+                .HasOne(p => p.Supplier)
+                .WithMany(s => s.Purchases)
+                .HasForeignKey(p => p.SupplierId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // 🔥 Purchase → PurchaseDetail (1 to many)
+            builder.Entity<PurchaseDetail>()
+                .HasOne(d => d.Purchase)
+                .WithMany(p => p.Details)
+                .HasForeignKey(d => d.PurchaseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // 🔥 Product → PurchaseDetail (1 to many)
+            builder.Entity<PurchaseDetail>()
+                .HasOne(d => d.Product)
+                .WithMany()
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         

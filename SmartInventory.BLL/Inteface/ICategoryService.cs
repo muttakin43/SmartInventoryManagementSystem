@@ -1,5 +1,6 @@
 ﻿using SmartInventory.BLL.Model;
 using SmartInventory.Contract.Request;
+using SmartInventory.Contract.Response;
 using SmartInventory.Model;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace SmartInventory.BLL.Inteface
         Task<Result<int>> UpdateAsync(UpdateCategoryRequest category);
 
         Task<Result<bool>> DeleteAsync(int id);
-
+        Task<DataTablesResponse<Category>> GetDataTablesAsync(DataTablesRequest request);
 
 
     }

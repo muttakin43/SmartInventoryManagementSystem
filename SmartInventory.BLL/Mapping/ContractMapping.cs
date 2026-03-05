@@ -12,17 +12,17 @@ namespace SmartInventory.BLL.Mapping
     {
         public static Product MapToProduct(this CreateProductRequest request)
         {
-          
+
             return new Product
             {
-                
+
                 ProductName = request.Name,
                 Description = request.Description,
                 Price = request.Price,
                 StockQuantit = request.StockQuantit,
                 CategoryId = request.CategoryId,
-                CreatedTime =DateTime.Now,
-                CreatedBy= 1
+                CreatedTime = DateTime.Now,
+                CreatedBy = 1
             };
         }
 
@@ -38,6 +38,19 @@ namespace SmartInventory.BLL.Mapping
         }
 
 
+        public static Supplier MapToSupplier(this CreateSupplierRequest request)
+        {
+            return new Supplier
+            {
+                Name = request.Name,
+                Phone = request.Phone,
+                Address = request.Address,
+                CreatedTime = DateTime.Now,
+                CreatedBy = 1
+            };
 
+
+
+        }
     }
 }

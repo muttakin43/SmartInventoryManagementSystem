@@ -1,7 +1,10 @@
-﻿using SmartInventory.BLL.Inteface;
+﻿using SmartInventory.BLL.Helpers;
+using SmartInventory.BLL.Inteface;
 using SmartInventory.BLL.Mapping;
 using SmartInventory.BLL.Model;
 using SmartInventory.Contract.Request;
+using SmartInventory.Contract.Response;
+using SmartInventory.DAL.Implementation;
 using SmartInventory.DAL.Interface;
 using SmartInventory.Model;
 using System;
@@ -37,7 +40,7 @@ namespace SmartInventory.BLL.Implementation
 
             try
             {
-                var newcategory=category.MapToCategory();
+                var newcategory = category.MapToCategory();
                 await _categoryUnitofWork.CategoryRepository.AddAsync(newcategory);
                 var saved = await _categoryUnitofWork.SaveChangesAsync();
                 if (!saved)
@@ -55,7 +58,7 @@ namespace SmartInventory.BLL.Implementation
 
         public async Task<Result<bool>> DeleteAsync(int id)
         {
-          var Category=await _categoryUnitofWork.CategoryRepository.GetByIdAsync(id);
+            var Category = await _categoryUnitofWork.CategoryRepository.GetByIdAsync(id);
 
             if (Category is null)
             {
@@ -74,12 +77,12 @@ namespace SmartInventory.BLL.Implementation
 
         public async Task<Result<IList<Category>>> GetallAsync()
         {
-           var Category= await _categoryUnitofWork.CategoryRepository.GetAsync(
-               x => x,
-        null,
-        x => x.OrderByDescending(x => x.id),
-        null,
-        true);
+            var Category = await _categoryUnitofWork.CategoryRepository.GetAsync(
+                x => x,
+         null,
+         x => x.OrderByDescending(x => x.id),
+         null,
+         true);
 
             return Result<IList<Category>>.SuccessResult(Category);
         }
@@ -105,13 +108,13 @@ namespace SmartInventory.BLL.Implementation
                 return Result<int>.FailureResult("Category cannot be null");
             }
             var Category = await _categoryUnitofWork.CategoryRepository.GetByIdAsync(model.id);
-          if (Category is null)
+            if (Category is null)
             {
                 return Result<int>.FailureResult($"Category with id {model.id} was not found.");
             }
 
-          var isExist = await _categoryUnitofWork.CategoryRepository.IsExistAsync(
-              x => x.CategoryName == model.CategoryName && x.id != model.id);
+            var isExist = await _categoryUnitofWork.CategoryRepository.IsExistAsync(
+                x => x.CategoryName == model.CategoryName && x.id != model.id);
 
             if (isExist)
             {
@@ -134,6 +137,83 @@ namespace SmartInventory.BLL.Implementation
             return Result<int>.SuccessResult(model.id);
 
 
+        }
+        public async Task<DataTablesResponse<Category>> GetDataTablesAsync(DataTablesRequest request)
+        {
+            try
+            {
+                var searchPredicate = DataTablesHelper.BuildSearchPredicate<Category>(
+               request,
+                searchValue =>
+                {
+                    var lower = searchValue.ToLower();
+
+                    return c =>
+                        c.CategoryName.ToLower().Contains(lower) ||
+                        c.Description.ToLower().Contains(lower);
+                }
+
+                );
+
+                Func<IQueryable<Category>, IOrderedQueryable<Category>>? orderBy = null;
+
+                if (request.Order != null && request.Order.Any() && request.Columns != null)
+                {
+                    var order = request.Order.First();
+                    var columnIndex = order.Column;
+                    var isAsc = order.Dir.ToLower() == "asc";
+
+                    if (columnIndex >= 0 && columnIndex < request.Columns.Count)
+                    {
+                        var column = request.Columns[columnIndex];
+                        var key = column.Data.ToLower();
+
+                        orderBy = key switch
+                        {
+                            "categoryname" => isAsc
+                                ? q => q.OrderBy(c => c.CategoryName)
+                                : q => q.OrderByDescending(c => c.CategoryName),
+
+                            "description" => isAsc
+                                ? q => q.OrderBy(c => c.Description)
+                                : q => q.OrderByDescending(c => c.Description),
+
+                        
+
+                            _ => null
+                        };
+                    }
+                }
+
+                // Default sorting
+                orderBy ??= q => q.OrderByDescending(c => c.id);
+
+                // 📄 Pagination
+                var (pageIndex, pageSize) = DataTablesHelper.CalculatePagination(request);
+
+                // 📦 Repository call
+                var (items, total, totalFilter) = await _categoryUnitofWork.CategoryRepository.GetAsync(
+                        c => c,
+                        searchPredicate,
+                        orderBy,
+                        null,
+                        pageIndex,
+                        pageSize,
+                        true
+                    );
+
+                return new DataTablesResponse<Category>
+                {
+                    Draw = request.Draw,
+                    RecordsTotal = total,
+                    RecordsFiltered = totalFilter,
+                    Data = items.ToList()
+                };
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
