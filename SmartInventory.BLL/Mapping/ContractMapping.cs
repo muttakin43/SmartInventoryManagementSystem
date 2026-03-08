@@ -52,5 +52,22 @@ namespace SmartInventory.BLL.Mapping
 
 
         }
+
+
+        public static Purchase MapToPurchase(this PurchaseCreateRequest request)
+        {
+            return new Purchase
+            {
+                SupplierId = request.SupplierId,
+                PurchaseDate = request.purchaseDate,
+                TotalAmount = request.Details.Sum(d => d.Price * d.Quantity),
+                Details = request.Details.Select(d => new PurchaseDetail
+                {
+                    ProductId = d.ProductId,
+                    Quantity = d.Quantity,
+                    Price = d.Price
+                }).ToList()
+            };
+        }
     }
 }
