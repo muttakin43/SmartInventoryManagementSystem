@@ -11,5 +11,7 @@ namespace SmartInventory.DAL.Interface
 {
     public interface ISaleRepository : IRepository<Sale,int,SmartInventoryDbContext>
     {
+        Task<int> CountSalesAsync();
+        Task<decimal> GetTotalSaleAmountAsync();
     }
 }

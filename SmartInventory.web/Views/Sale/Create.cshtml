@@ -1,0 +1,36 @@
+﻿@model SmartInventory.Contract.Request.SaleCreateRequest
+
+@{
+	ViewData["HeaderTitle"] = "Create Sale";
+	ViewData["BreadCrumbFirst"] = "Home";
+	ViewData["BreadCrumbActive"] = "Sale";
+}
+
+<h2>Create Sale</h2>
+
+<form asp-action="Create" method="post">
+
+    <div class="mb-3">
+        <label>Product</label>
+        <select asp-for="SaleDetails[0].ProductId" class="form-control">
+            <option value="">Select Product</option>
+            @foreach (var p in ViewBag.Products)
+            {
+                <option value="@p.id">@p.ProductName</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Quantity</label>
+        <input asp-for="SaleDetails[0].Quantity" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Price</label>
+        <input asp-for="SaleDetails[0].Price" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Sale</button>
+
+</form>

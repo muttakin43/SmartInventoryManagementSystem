@@ -1,4 +1,5 @@
 ﻿using SmartInventory.Contract.Request;
+using SmartInventory.DAL.Migrations;
 using SmartInventory.Model;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,22 @@ namespace SmartInventory.BLL.Mapping
                     ProductId = d.ProductId,
                     Quantity = d.Quantity,
                     Price = d.Price
+                }).ToList()
+            };
+        }
+
+
+        public static Sale MapToSale(this SaleCreateRequest request)
+        {
+            return new Sale
+            {
+
+                SaleDate = DateTime.UtcNow,
+                SaleDetails = request.SaleDetails.Select(x => new SaleDetails
+                {
+                    ProductId = x.ProductId,
+                    Quantity = x.Quantity,
+                    Price = x.Price
                 }).ToList()
             };
         }
