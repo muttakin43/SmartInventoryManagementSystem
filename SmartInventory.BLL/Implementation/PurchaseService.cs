@@ -8,35 +8,51 @@ using SmartInventory.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SmartInventory.BLL.Implementation
 {
     public class PurchaseService : IPurchaseService
     {
-        private readonly IPurchaseUnitOfWork _purchaseUnitofWork;
+        private readonly IPurchaseUnitOfWork _purchaseUnitOfWork;
+
         public PurchaseService(IPurchaseUnitOfWork purchaseUnitOfWork)
         {
-            _purchaseUnitofWork = purchaseUnitOfWork;
+            _purchaseUnitOfWork = purchaseUnitOfWork;
         }
 
-        public async Task<Result<int>> CreatePurchaseAsync(PurchaseCreateRequest purchaserequest)
+        // CREATE PURCHASE
+        public async Task<Result<int>> CreatePurchaseAsync(PurchaseCreateRequest purchaseRequest)
         {
             try
             {
-                var purchase = purchaserequest.MapToPurchase();
+                var purchase = purchaseRequest.MapToPurchase();
 
                 foreach (var detail in purchase.Details)
                 {
-                    // Make sure GetAsync exists in IProductRepository
-                    var product = await _purchaseUnitofWork.ProductRepository.GetByIdAsync(detail.ProductId);
-                    if (product != null)
-                        product.StockQuantit += detail.Quantity;
+                    var product = await _purchaseUnitOfWork.ProductRepository.GetByIdAsync(detail.ProductId);
+
+                    if (product == null)
+                        throw new Exception("Product not found");
+
+                    // ✅ Increase stock
+                    product.StockQuantit += detail.Quantity;
+
+                    // ✅ Add stock transaction
+                    await _purchaseUnitOfWork.StockTransactionRepository.AddAsync(new StockTransaction
+                    {
+                        ProductId = detail.ProductId,
+                        Quantity = detail.Quantity,
+                        Type = "Purchase",
+                        Date = DateTime.UtcNow
+                    });
                 }
 
-                await _purchaseUnitofWork.PurchaseRepository.AddAsync(purchase);
-                await _purchaseUnitofWork.SaveChangesAsync();
+                // ✅ Calculate total amount
+                purchase.TotalAmount = purchase.Details.Sum(x => x.Quantity * x.Price);
+
+                await _purchaseUnitOfWork.PurchaseRepository.AddAsync(purchase);
+                await _purchaseUnitOfWork.SaveChangesAsync();
 
                 return Result<int>.SuccessResult(purchase.id);
             }
@@ -46,17 +62,18 @@ namespace SmartInventory.BLL.Implementation
             }
         }
 
-
-
+        // GET ALL PURCHASES
         public async Task<Result<IList<Purchase>>> GetallPurchaseAsync()
         {
             try
             {
-                var purchases = await _purchaseUnitofWork.PurchaseRepository.GetAsync<Purchase>(
+                var purchases = await _purchaseUnitOfWork.PurchaseRepository.GetAsync<Purchase>(
                     selector: x => x,
                     predicate: null,
                     orderBy: null,
-                    include: null,
+                    include: x => x.Include(p => p.Supplier)
+                                  .Include(p => p.Details)
+                                  .ThenInclude(d => d.Product),
                     disableTracking: true
                 );
 
@@ -68,11 +85,22 @@ namespace SmartInventory.BLL.Implementation
             }
         }
 
+        // GET PURCHASE BY ID (WITH Supplier & Details & Product)
         public async Task<Result<Purchase>> GetPurchaseByIdAsync(int id)
         {
             try
             {
-                var purchase = await _purchaseUnitofWork.PurchaseRepository.GetByIdAsync(id);
+                var purchases = await _purchaseUnitOfWork.PurchaseRepository.GetAsync<Purchase>(
+                    selector: x => x,
+                    predicate: x => x.id == id,
+                    orderBy: null,
+                    include: x => x.Include(p => p.Supplier)
+                                  .Include(p => p.Details)
+                                  .ThenInclude(d => d.Product),
+                    disableTracking: false
+                );
+
+                var purchase = purchases.FirstOrDefault();
 
                 if (purchase == null)
                     return Result<Purchase>.FailureResult("Purchase not found");

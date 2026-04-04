@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartInventory.DAL.Content;
 
@@ -11,9 +12,11 @@ using SmartInventory.DAL.Content;
 namespace SmartInventory.DAL.Migrations
 {
     [DbContext(typeof(SmartInventoryDbContext))]
-    partial class SmartInventoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260403174140_AddStockTransaction")]
+    partial class AddStockTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -388,78 +391,6 @@ namespace SmartInventory.DAL.Migrations
                     b.ToTable("PurchaseDetails");
                 });
 
-            modelBuilder.Entity("SmartInventory.Model.Sale", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("SaleDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Sale");
-                });
-
-            modelBuilder.Entity("SmartInventory.Model.SaleDetails", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SaleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("SaleDetails");
-                });
-
             modelBuilder.Entity("SmartInventory.Model.StockTransaction", b =>
                 {
                     b.Property<int>("id")
@@ -626,25 +557,6 @@ namespace SmartInventory.DAL.Migrations
                     b.Navigation("Purchase");
                 });
 
-            modelBuilder.Entity("SmartInventory.Model.SaleDetails", b =>
-                {
-                    b.HasOne("SmartInventory.Model.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SmartInventory.Model.Sale", "Sale")
-                        .WithMany("SaleDetails")
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Sale");
-                });
-
             modelBuilder.Entity("SmartInventory.Model.Category", b =>
                 {
                     b.Navigation("Products");
@@ -653,11 +565,6 @@ namespace SmartInventory.DAL.Migrations
             modelBuilder.Entity("SmartInventory.Model.Purchase", b =>
                 {
                     b.Navigation("Details");
-                });
-
-            modelBuilder.Entity("SmartInventory.Model.Sale", b =>
-                {
-                    b.Navigation("SaleDetails");
                 });
 
             modelBuilder.Entity("SmartInventory.Model.Supplier", b =>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SmartInventory.Model.Purchase>
+
+@{
+    ViewData["HeaderTitle"] = "Purchases";
+    ViewData["BreadCrumbFirst"] = "Home";
+    ViewData["BreadCrumbActive"] = "Purchases List";
+}
+
+<h2>Purchase List</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Create Purchase</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Purchase Id</th>
+            <th>Supplier</th>
+            <th>Total Amount</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.Supplier?.Name</td>
+                <td>@item.TotalAmount.ToString("0.00")</td>
+                <td>@item.PurchaseDate.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info btn-sm">
+                        Details
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

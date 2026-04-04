@@ -12,5 +12,7 @@ namespace SmartInventory.DAL.Interface
         IPurchaseDetailsRepository PurchaseDetailsRepository { get; }
          IPurchaseRepository PurchaseRepository { get; }
         IProductRepository ProductRepository { get; }
+
+        IStockTransactionRepository StockTransactionRepository { get; }
     }
 }

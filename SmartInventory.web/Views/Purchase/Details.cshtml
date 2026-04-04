@@ -1,0 +1,54 @@
+﻿@model SmartInventory.Model.Purchase
+
+@{
+    ViewData["HeaderTitle"] = "Purchase Details";
+    ViewData["BreadcrumbFirst"] = "Home";
+    ViewData["BreadcrumbActive"] = "Purchase Details";
+}
+
+<h2>Purchase Details</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Purchase Id</th>
+        <td>@Model.id</td>
+    </tr>
+    <tr>
+        <th>Supplier</th>
+        <td>@Model.Supplier?.Name</td>
+    </tr>
+    <tr>
+        <th>Total Amount</th>
+        <td>@Model.TotalAmount.ToString("0.00")</td>
+    </tr>
+    <tr>
+        <th>Date</th>
+        <td>@Model.PurchaseDate.ToString("dd/MM/yyyy")</td>
+    </tr>
+</table>
+
+<h4>Products</h4>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model.Details)
+        {
+            <tr>
+                <td>@d.Product?.ProductName</td>
+                <td>@d.Quantity</td>
+                <td>@d.Price.ToString("0.00")</td>
+                <td>@(d.Quantity* d.Price).ToString("0.00")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4>Total: @Model.TotalAmount.ToString("0.00")</h4>

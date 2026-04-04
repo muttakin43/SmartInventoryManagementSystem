@@ -16,6 +16,10 @@ namespace SmartInventory.web
             services.AddScoped<ICategoryUnitOfWork, CategoryUnitOfWork>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<ISupplierUnitOfWork, SupplierUnitOfWork>();
+            services.AddScoped<IPurchaseDetailsRepository, PurchaseDetailsRepository>();
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            services.AddScoped<IPurchaseUnitOfWork, PurchaseUnitOfWork>();
+            services.AddScoped<IStockTransactionRepository, StockTransactionRepository>();
             return services;
         }
         public static IServiceCollection AddServices(this IServiceCollection services)
@@ -24,6 +28,8 @@ namespace SmartInventory.web
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ISupplierService, SupplierService>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
+            
 
             return services;
         }

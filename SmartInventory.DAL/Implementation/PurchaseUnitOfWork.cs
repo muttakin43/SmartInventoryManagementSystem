@@ -1,5 +1,6 @@
 ﻿using SmartInventory.DAL.Content;
 using SmartInventory.DAL.Core;
+using SmartInventory.DAL.Implementation;
 using SmartInventory.DAL.Interface;
 
 
@@ -13,12 +14,14 @@ namespace SmartInventory.BLL.Implementation
             SmartInventoryDbContext context,
             IPurchaseRepository purchaseRepository,
             IPurchaseDetailsRepository purchaseDetailsRepository,
-            IProductRepository productRepository
+            IProductRepository productRepository,
+            IStockTransactionRepository stockTransactionRepository
             ) : base(context)
         {
             PurchaseRepository = purchaseRepository;
             PurchaseDetailsRepository = purchaseDetailsRepository;
             ProductRepository = productRepository;
+            StockTransactionRepository = stockTransactionRepository;
         }
 
         public IPurchaseRepository PurchaseRepository { get; }
@@ -27,6 +30,6 @@ namespace SmartInventory.BLL.Implementation
 
         public IProductRepository ProductRepository { get; }
 
-
+        public IStockTransactionRepository StockTransactionRepository { get; }
     }
 }

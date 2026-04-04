@@ -25,6 +25,12 @@ public class SmartInventoryDbContext : IdentityDbContext<ApplicationUser,Identit
 
         public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
 
+        public DbSet<StockTransaction> StockTransactions { get; set; }
+
+        public DbSet<Sale> Sale {  get; set; }
+
+        public DbSet<SaleDetails> SaleDetails { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -53,6 +59,20 @@ public class SmartInventoryDbContext : IdentityDbContext<ApplicationUser,Identit
 
             // 🔥 Product → PurchaseDetail (1 to many)
             builder.Entity<PurchaseDetail>()
+                .HasOne(d => d.Product)
+                .WithMany()
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder.Entity<SaleDetails>()
+                .HasOne(d => d.Sale)
+                .WithMany(s => s.SaleDetails)
+                .HasForeignKey(d => d.SaleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Product → SaleDetail
+            builder.Entity<SaleDetails>()
                 .HasOne(d => d.Product)
                 .WithMany()
                 .HasForeignKey(d => d.ProductId)
