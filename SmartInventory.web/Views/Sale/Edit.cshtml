@@ -1,0 +1,118 @@
+﻿@model SmartInventory.Contract.Request.SaleCreateRequest
+
+@{
+    ViewData["HeaderTitle"] = "Edit Sale";
+    ViewData["BreadcrumbFirst"] = "Home";
+    ViewData["BreadcrumbActive"] = "Sale";
+}
+
+<h2>Edit Sale</h2>
+
+<form asp-action="Edit" asp-route-id="@ViewBag.SaleId" method="post">
+
+    <div id="productsContainer">
+
+        @for (int i = 0; i < Model.SaleDetails.Count; i++)
+        {
+            <div class="product-row border p-3 mb-2">
+                <label>Product</label>
+                <select name="SaleDetails[@i].ProductId" class="form-control">
+                    <option value="">Select Product</option>
+                    @foreach (var p in ViewBag.Product)
+                    {
+                        <option value="@p.id"
+                                selected="@(p.id == Model.SaleDetails[i].ProductId ? "selected" : null)">
+                            @p.ProductName
+                        </option>
+                    }
+                </select>
+
+                <label class="mt-2">Quantity</label>
+                <input type="number" name="SaleDetails[@i].Quantity"
+                       class="form-control"
+                       value="@Model.SaleDetails[i].Quantity" />
+
+                <label class="mt-2">Price</label>
+                <input type="number" name="SaleDetails[@i].Price"
+                       class="form-control"
+                       value="@Model.SaleDetails[i].Price" />
+
+                <button type="button" class="btn btn-danger mt-2" onclick="removeRow(this)">Remove</button>
+            </div>
+        }
+    </div>
+
+    <!-- Hidden Template -->
+    <select id="productOptionsTemplate" class="d-none">
+        <option value="">Select Product</option>
+        @foreach (var p in ViewBag.Product)
+        {
+            <option value="@p.id">@p.ProductName</option>
+        }
+    </select>
+
+    <button type="button" class="btn btn-primary mt-2" onclick="addRow()">➕ Add Product</button>
+
+    <br /><br />
+
+    <button type="submit" class="btn btn-success">💾 Update Sale</button>
+</form>
+
+@section Scripts {
+    <script>
+        function addRow() {
+            var container = document.getElementById('productsContainer');
+            var index = container.children.length;
+
+            // Hidden template থেকে option নাও
+            var options = document.getElementById('productOptionsTemplate').innerHTML;
+
+            var row = document.createElement('div');
+            row.classList.add('product-row', 'border', 'p-3', 'mb-2');
+
+            row.innerHTML = `
+                <label>Product</label>
+                <select name="SaleDetails[${index}].ProductId" class="form-control">
+                    ${options}
+                </select>
+
+                <label class="mt-2">Quantity</label>
+                <input type="number" name="SaleDetails[${index}].Quantity" class="form-control" />
+
+                <label class="mt-2">Price</label>
+                <input type="number" name="SaleDetails[${index}].Price" class="form-control" />
+
+                <button type="button" class="btn btn-danger mt-2" onclick="removeRow(this)">Remove</button>
+            `;
+
+            container.appendChild(row);
+        }
+
+        function removeRow(button) {
+            var row = button.parentElement;
+            var container = document.getElementById('productsContainer');
+
+            if (container.children.length > 1) {
+                row.remove();
+                reIndex();
+            }
+        }
+
+        function reIndex() {
+            var rows = document.querySelectorAll('#productsContainer .product-row');
+
+            rows.forEach((row, index) => {
+                row.querySelectorAll('select, input').forEach(input => {
+                    if (input.name.includes('ProductId'))
+                        input.name = `SaleDetails[${index}].ProductId`;
+
+                    if (input.name.includes('Quantity'))
+                        input.name = `SaleDetails[${index}].Quantity`;
+
+                    if (input.name.includes('Price'))
+                        input.name = `SaleDetails[${index}].Price`;
+                });
+            });
+        }
+    </script>
+}

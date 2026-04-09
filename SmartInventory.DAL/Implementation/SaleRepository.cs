@@ -23,5 +23,10 @@ namespace SmartInventory.DAL.Implementation
         {
             return await _dbSet.SumAsync(x => x.TotalAmount);
         }
+
+        public void Remove(Sale sale)
+        {
+            _dbSet.Remove(sale);
+        }
     }
 }

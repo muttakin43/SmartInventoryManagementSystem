@@ -125,7 +125,7 @@ namespace SmartInventory.BLL.Implementation
             product.ProductName = model.Name;
             product.Description = model.Description;
             product.Price = model.Price;
-            product.StockQuantit = model.StockQuantit;
+            product.StockQuantity = model.StockQuantity;
             product.CategoryId = model.CategoryId;
 
             await _productUnitofWork.ProductRepository.UpdateAsync(product);
@@ -155,7 +155,7 @@ namespace SmartInventory.BLL.Implementation
                             p.ProductName.ToLower().Contains(lowerSearch) ||
                             p.Description.ToLower().Contains(lowerSearch) ||
                             p.Price.ToString().Contains(searchValue) ||
-                            p.StockQuantit.ToString().Contains(searchValue);
+                            p.StockQuantity.ToString().Contains(searchValue);
                     }
                 );
 
@@ -185,8 +185,8 @@ namespace SmartInventory.BLL.Implementation
                                 ? q => q.OrderBy(p => p.Price)
                                 : q => q.OrderByDescending(p => p.Price),
                             "stockquantit" => isAscending
-                                ? q => q.OrderBy(p => p.StockQuantit)
-                                : q => q.OrderByDescending(p => p.StockQuantit),
+                                ? q => q.OrderBy(p => p.StockQuantity)
+                                : q => q.OrderByDescending(p => p.StockQuantity),
                             _ => null
                         };
                     }

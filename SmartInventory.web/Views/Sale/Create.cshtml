@@ -1,36 +1,95 @@
-﻿@model SmartInventory.Contract.Request.SaleCreateRequest
+﻿
+@model SmartInventory.Contract.Request.SaleCreateRequest
 
 @{
-	ViewData["HeaderTitle"] = "Create Sale";
-	ViewData["BreadCrumbFirst"] = "Home";
-	ViewData["BreadCrumbActive"] = "Sale";
+
+    ViewData["HeaderTitle"] = "Create Sale";
+    ViewData["BreadcrumbFirst"] = "Home";
+    ViewData["BreadcrumbActive"] = "Sale";
 }
 
 <h2>Create Sale</h2>
 
 <form asp-action="Create" method="post">
 
-    <div class="mb-3">
+    <div id="productsContainer"></div>
+
+    <button type="button" class="btn btn-primary mt-2" onclick="addRow()">➕ Add Product</button>
+
+    <br /><br />
+
+    <button type="submit" class="btn btn-success">💾 Save Sale</button>
+
+</form>
+
+<!-- 🔥 Hidden Template -->
+<div id="productTemplate" style="display:none;">
+    <div class="product-row border p-3 mb-2">
+
         <label>Product</label>
-        <select asp-for="SaleDetails[0].ProductId" class="form-control">
+        <select class="form-control product-select">
             <option value="">Select Product</option>
             @foreach (var p in ViewBag.Products)
             {
                 <option value="@p.id">@p.ProductName</option>
             }
         </select>
+
+        <label class="mt-2">Quantity</label>
+        <input type="number" class="form-control quantity" />
+
+        <label class="mt-2">Price</label>
+        <input type="number" class="form-control price" />
+
+        <button type="button" class="btn btn-danger mt-2" onclick="removeRow(this)">Remove</button>
+
     </div>
+</div>
 
-    <div class="mb-3">
-        <label>Quantity</label>
-        <input asp-for="SaleDetails[0].Quantity" class="form-control" />
-    </div>
+@section Scripts {
+<script>
 
-    <div class="mb-3">
-        <label>Price</label>
-        <input asp-for="SaleDetails[0].Price" class="form-control" />
-    </div>
+    // 🔥 Page load হলে 1টা row auto add হবে
+    document.addEventListener("DOMContentLoaded", function () {
+        addRow();
+    });
 
-    <button type="submit" class="btn btn-success">Save Sale</button>
+    // 🔥 Add Row
+    function addRow() {
+        var container = document.getElementById('productsContainer');
+        var template = document.getElementById('productTemplate').innerHTML;
 
-</form>
+        var div = document.createElement('div');
+        div.innerHTML = template;
+
+        container.appendChild(div.firstElementChild);
+
+        reIndex();
+    }
+
+    // 🔥 Remove Row
+    function removeRow(button) {
+        var row = button.closest('.product-row');
+        var container = document.getElementById('productsContainer');
+
+        if (container.children.length > 1) {
+            row.remove();
+            reIndex();
+        }
+    }
+
+    // 🔥 Index Fix (MOST IMPORTANT)
+    function reIndex() {
+        var rows = document.querySelectorAll('#productsContainer .product-row');
+
+        rows.forEach((row, index) => {
+
+            row.querySelector('.product-select').name = `SaleDetails[${index}].ProductId`;
+            row.querySelector('.quantity').name = `SaleDetails[${index}].Quantity`;
+            row.querySelector('.price').name = `SaleDetails[${index}].Price`;
+
+        });
+    }
+
+</script>
+}

@@ -9,6 +9,7 @@ namespace SmartInventory.Contract.Request
     public class SaleCreateRequest
     {
         public DateTime SaleDate {  get; set; }
+        public decimal TotalAmount { get; set; }    
 
         public List<SaleDetailsRequest> SaleDetails { get; set; } = new List<SaleDetailsRequest>();
     }

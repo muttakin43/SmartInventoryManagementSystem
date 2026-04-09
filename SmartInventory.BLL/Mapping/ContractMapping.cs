@@ -20,7 +20,7 @@ namespace SmartInventory.BLL.Mapping
                 ProductName = request.Name,
                 Description = request.Description,
                 Price = request.Price,
-                StockQuantit = request.StockQuantit,
+                StockQuantity = request.StockQuantit,
                 CategoryId = request.CategoryId,
                 CreatedTime = DateTime.Now,
                 CreatedBy = 1
@@ -77,7 +77,7 @@ namespace SmartInventory.BLL.Mapping
             return new Sale
             {
 
-                SaleDate = DateTime.UtcNow,
+                SaleDate = request.SaleDate,
                 SaleDetails = request.SaleDetails.Select(x => new SaleDetails
                 {
                     ProductId = x.ProductId,

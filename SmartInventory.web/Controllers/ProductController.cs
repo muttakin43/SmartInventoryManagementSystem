@@ -94,7 +94,7 @@ namespace SmartInventory.web.Controllers
                 Name = product.ProductName,
                 Description = product.Description,
                 Price = product.Price,
-                StockQuantit = product.StockQuantit,
+                StockQuantity = product.StockQuantity,
                 CategoryId = product.CategoryId
             };
             var categories = await _categoryService.GetallAsync();

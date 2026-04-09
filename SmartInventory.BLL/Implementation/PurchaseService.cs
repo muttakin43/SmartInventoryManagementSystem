@@ -36,7 +36,7 @@ namespace SmartInventory.BLL.Implementation
                         throw new Exception("Product not found");
 
                     // ✅ Increase stock
-                    product.StockQuantit += detail.Quantity;
+                    product.StockQuantity += detail.Quantity;
 
                     // ✅ Add stock transaction
                     await _purchaseUnitOfWork.StockTransactionRepository.AddAsync(new StockTransaction
@@ -74,7 +74,8 @@ namespace SmartInventory.BLL.Implementation
                     include: x => x.Include(p => p.Supplier)
                                   .Include(p => p.Details)
                                   .ThenInclude(d => d.Product),
-                    disableTracking: true
+                    disableTracking:
+                    true
                 );
 
                 return Result<IList<Purchase>>.SuccessResult(purchases);

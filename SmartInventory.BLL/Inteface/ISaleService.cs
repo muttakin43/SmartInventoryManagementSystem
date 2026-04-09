@@ -14,5 +14,8 @@ namespace SmartInventory.BLL.Inteface
         Task<Result<int>> CreateSaleAsync(SaleCreateRequest request);
         Task<Result<IList<Sale>>> GetAllAsync();
         Task<Result<Sale>> GetByIdAsync(int id);
+        Task<Result<bool>> UpdateSaleAsync(int id, SaleCreateRequest request);
+        Task<Result<bool>> DeleteSaleAsync(int id);
+
     }
 }

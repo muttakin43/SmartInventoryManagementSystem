@@ -13,5 +13,6 @@ namespace SmartInventory.DAL.Interface
     {
         Task<int> CountSalesAsync();
         Task<decimal> GetTotalSaleAmountAsync();
+        void Remove(Sale sale);
     }
 }
