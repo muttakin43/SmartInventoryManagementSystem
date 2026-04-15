@@ -1,0 +1,98 @@
+@model IEnumerable<SmartInventory.Model.StockTransaction>
+
+@{
+    ViewData["HeaderTitle"] = "Stock Transaction History";
+    ViewData["BreadCrumbFirst"] = "Home";
+    ViewData["BreadCrumbActive"] = "Stock Transaction ";
+}
+
+
+
+<!-- 🔍 FILTER SECTION -->
+<form method="get" class="mb-3">
+
+    <select name="productId" class="form-control d-inline" style="width:200px;">
+        <option value="">All Products</option>
+        @foreach (var p in ViewBag.Products)
+        {
+            <option value="@p.id">@p.ProductName</option>
+        }
+    </select>
+
+    <select name="type" class="form-control d-inline" style="width:200px;">
+        <option value="">All Type</option>
+        <option value="Purchase">Purchase</option>
+        <option value="Sale">Sale</option>
+        <option value="Purchase Deleted">Purchase Deleted</option>
+        <option value="PURCHASE_UPDATE">Purchase Update</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Filter</button>
+
+</form>
+
+<!-- 📊 TABLE -->
+<table id="stockTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Type</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <!-- Product Name -->
+                <td>@item.Product?.ProductName</td>
+
+                <!-- Quantity with color -->
+                <td>
+                    @if (item.Type.Contains("Purchase"))
+                    {
+                        <span class="text-success fw-bold">+ @item.Quantity</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger fw-bold">- @item.Quantity</span>
+                    }
+                </td>
+
+                <!-- Type -->
+                <td>@item.Type</td>
+
+                <!-- Date -->
+                <td>@item.Date.ToString("dd-MM-yyyy hh:mm tt")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            // 🔥 DataTable enable
+            $('#stockTable').DataTable({
+                pageLength: 10
+            });
+
+            // 🔥 Auto filter submit
+            $('select[name="productId"], select[name="type"]').change(function () {
+                $(this).closest('form').submit();
+            });
+
+        });
+    </script>
+
+}

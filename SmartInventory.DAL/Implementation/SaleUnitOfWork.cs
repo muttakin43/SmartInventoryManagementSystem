@@ -15,15 +15,17 @@ namespace SmartInventory.DAL.Implementation
             SmartInventoryDbContext context,
             ISaleRepository saleRepository,
             IProductRepository productRepository,
-            IStockTransactionRepository stockTransactionRepository
-            
+            IStockTransactionRepository stockTransactionRepository,
+            ICustomerRepository customerRepository
+
             ) : base(context)
         {
             SaleRepository = saleRepository; ;
             ProductRepository = productRepository; 
             StockTransactionRepository=stockTransactionRepository;
+            CustomerRepository=customerRepository;
 
-            
+
         }
 
        
@@ -37,5 +39,7 @@ namespace SmartInventory.DAL.Implementation
         
 
         public IStockTransactionRepository StockTransactionRepository { get; }
+
+        public ICustomerRepository CustomerRepository { get; }
     }
 }

@@ -11,17 +11,23 @@ namespace SmartInventory.web
         {
             // Register repositories here
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductUnitofWork, ProductUnitofWork>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ICategoryUnitOfWork, CategoryUnitOfWork>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
-            services.AddScoped<ISupplierUnitOfWork, SupplierUnitOfWork>();
             services.AddScoped<IPurchaseDetailsRepository, PurchaseDetailsRepository>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
-            services.AddScoped<IPurchaseUnitOfWork, PurchaseUnitOfWork>();
-            services.AddScoped<IStockTransactionRepository, StockTransactionRepository>();
-            services.AddScoped<ISaleUnitOfWork, SaleUnitOfWork>();
+            services.AddScoped<IStockTransactionRepository, StockTransactionRepository>(); 
             services.AddScoped<ISaleRepository, SaleRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+            
+            
+            
+            services.AddScoped<IProductUnitofWork, ProductUnitofWork>();
+            services.AddScoped<ISupplierUnitOfWork, SupplierUnitOfWork>();
+            services.AddScoped<ICategoryUnitOfWork, CategoryUnitOfWork>();
+            services.AddScoped<IPurchaseUnitOfWork, PurchaseUnitOfWork>();
+            services.AddScoped<ISaleUnitOfWork, SaleUnitOfWork>();
+
             return services;
         }
         public static IServiceCollection AddServices(this IServiceCollection services)
@@ -32,6 +38,8 @@ namespace SmartInventory.web
             services.AddScoped<ISupplierService, SupplierService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
             services.AddScoped<ISaleService, SaleService>();
+            services.AddScoped<IStockTransactionService, StockTransactionService>();
+            services.AddScoped<ICustomerService, CustomerService>();
             
 
             return services;

@@ -5,6 +5,7 @@ using SmartInventory.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +31,8 @@ public class SmartInventoryDbContext : IdentityDbContext<ApplicationUser,Identit
         public DbSet<Sale> Sale {  get; set; }
 
         public DbSet<SaleDetails> SaleDetails { get; set; }
+
+        public DbSet<Customer> Customers { get; set; }
 
 
 
@@ -77,6 +80,13 @@ public class SmartInventoryDbContext : IdentityDbContext<ApplicationUser,Identit
                 .WithMany()
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder.Entity<Sale>()
+                 .HasOne(s => s.Customer)
+                 .WithMany(c => c.Sales)
+                 .HasForeignKey(s => s.CustomerId)
+                 .OnDelete(DeleteBehavior.Restrict);
         }
 
         

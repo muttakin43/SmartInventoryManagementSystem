@@ -31,5 +31,10 @@ namespace SmartInventory.DAL.Implementation
                 .Take(count)
                 .ToListAsync();
         }
+
+        public void Remove(Purchase purchase)
+        {
+            _dbSet.Remove(purchase);
+        }
     }
 }

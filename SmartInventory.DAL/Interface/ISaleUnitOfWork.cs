@@ -14,5 +14,7 @@ namespace SmartInventory.DAL.Interface
 
         IStockTransactionRepository StockTransactionRepository { get; }
 
+            ICustomerRepository CustomerRepository { get; }
+
     }
 }

@@ -16,5 +16,6 @@ namespace SmartInventory.DAL.Interface
         Task<decimal> GetTotalPurchaseAmountAsync();
 
         Task<IList<Purchase>> GetRecentPurchasesAsync(int count);
+        void Remove(Purchase purchase);
     }
 }

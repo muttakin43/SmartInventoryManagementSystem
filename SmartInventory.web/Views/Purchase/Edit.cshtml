@@ -1,0 +1,64 @@
+﻿@model SmartInventory.Contract.Request.PurchaseUpdateRequest
+
+@{
+    ViewData["HeaderTitle"] = "Edit Purchase";
+    ViewData["BreadcrumbFirst"] = "Home";
+    ViewData["BreadcrumbActive"] = "Purchase";
+}
+
+
+<h2>Edit Purchase</h2>
+
+<form asp-action="Edit" method="post">
+
+    <div>
+        <label>Supplier</label>
+        <select asp-for="SupplierId">
+            @foreach (var s in ViewBag.Suppliers)
+            {
+                <option value="@s.Id">@s.Name</option>
+            }
+        </select>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        @for (int i = 0; i < Model.Items.Count; i++)
+        {
+            <tr>
+                <td>
+                    <select name="Items[@i].ProductId">
+                        @foreach (var p in ViewBag.Products)
+                        {
+                            <option value="@p.Id"
+                                selected="@(p.Id == Model.Items[i].ProductId)">
+                                @p.ProductName
+                            </option>
+                        }
+                    </select>
+                </td>
+
+                <td>
+                    <input name="Items[@i].Quantity"
+                           value="@Model.Items[i].Quantity" />
+                </td>
+
+                <td>
+                    <input name="Items[@i].UnitPrice"
+                           value="@Model.Items[i].UnitPrice" />
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <button type="submit">Update</button>
+</form>

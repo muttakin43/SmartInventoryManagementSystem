@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartInventory.DAL.Content;
 
@@ -11,9 +12,11 @@ using SmartInventory.DAL.Content;
 namespace SmartInventory.DAL.Migrations
 {
     [DbContext(typeof(SmartInventoryDbContext))]
-    partial class SmartInventoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260414050447_productupdate")]
+    partial class productupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,43 +270,6 @@ namespace SmartInventory.DAL.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("SmartInventory.Model.Customer", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Customers");
-                });
-
             modelBuilder.Entity("SmartInventory.Model.Product", b =>
                 {
                     b.Property<int>("id")
@@ -439,9 +405,6 @@ namespace SmartInventory.DAL.Migrations
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("SaleDate")
                         .HasColumnType("datetime2");
 
@@ -455,8 +418,6 @@ namespace SmartInventory.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Sale");
                 });
@@ -670,17 +631,6 @@ namespace SmartInventory.DAL.Migrations
                     b.Navigation("Purchase");
                 });
 
-            modelBuilder.Entity("SmartInventory.Model.Sale", b =>
-                {
-                    b.HasOne("SmartInventory.Model.Customer", "Customer")
-                        .WithMany("Sales")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("SmartInventory.Model.SaleDetails", b =>
                 {
                     b.HasOne("SmartInventory.Model.Product", "Product")
@@ -714,11 +664,6 @@ namespace SmartInventory.DAL.Migrations
             modelBuilder.Entity("SmartInventory.Model.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("SmartInventory.Model.Customer", b =>
-                {
-                    b.Navigation("Sales");
                 });
 
             modelBuilder.Entity("SmartInventory.Model.Purchase", b =>
