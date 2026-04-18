@@ -6,113 +6,106 @@
     ViewData["BreadcrumbActive"] = "Sale";
 }
 
-<h2>Edit Sale</h2>
-
 <form asp-action="Edit" asp-route-id="@ViewBag.SaleId" method="post">
 
-    <div id="productsContainer">
+    <!-- Customer -->
+    <div class="form-group">
+        <label>Customer</label>
+        <select name="CustomerId" class="form-control">
+            @foreach (var c in ViewBag.Customers)
+            {
+                if (c.Id == Model.CustomerId)
+                {
+                    <option value="@c.Id" selected>@c.Name</option>
+                }
+                else
+                {
+                    <option value="@c.Id">@c.Name</option>
+                }
+            }
+        </select>
+    </div>
 
+    <!-- Date -->
+    <div class="form-group mt-2">
+        <label>Date</label>
+        <input type="date" name="SaleDate"
+               value="@Model.SaleDate.ToString("yyyy-MM-dd")"
+               class="form-control" />
+    </div>
+
+    <div id="productsContainer">
         @for (int i = 0; i < Model.SaleDetails.Count; i++)
         {
             <div class="product-row border p-3 mb-2">
+
                 <label>Product</label>
                 <select name="SaleDetails[@i].ProductId" class="form-control">
-                    <option value="">Select Product</option>
-                    @foreach (var p in ViewBag.Product)
+                    @foreach (var p in ViewBag.Products)
                     {
-                        <option value="@p.id"
-                                selected="@(p.id == Model.SaleDetails[i].ProductId ? "selected" : null)">
-                            @p.ProductName
-                        </option>
+                        if (p.id == Model.SaleDetails[i].ProductId)
+                        {
+                            <option value="@p.id" selected>@p.ProductName</option>
+                        }
+                        else
+                        {
+                            <option value="@p.id">@p.ProductName</option>
+                        }
                     }
                 </select>
 
-                <label class="mt-2">Quantity</label>
+                <label class="mt-2">Qty</label>
                 <input type="number" name="SaleDetails[@i].Quantity"
-                       class="form-control"
-                       value="@Model.SaleDetails[i].Quantity" />
+                       value="@Model.SaleDetails[i].Quantity"
+                       class="form-control" />
 
                 <label class="mt-2">Price</label>
                 <input type="number" name="SaleDetails[@i].Price"
-                       class="form-control"
-                       value="@Model.SaleDetails[i].Price" />
+                       value="@Model.SaleDetails[i].Price"
+                       class="form-control" />
 
                 <button type="button" class="btn btn-danger mt-2" onclick="removeRow(this)">Remove</button>
             </div>
         }
     </div>
 
-    <!-- Hidden Template -->
-    <select id="productOptionsTemplate" class="d-none">
-        <option value="">Select Product</option>
-        @foreach (var p in ViewBag.Product)
-        {
-            <option value="@p.id">@p.ProductName</option>
-        }
-    </select>
-
-    <button type="button" class="btn btn-primary mt-2" onclick="addRow()">➕ Add Product</button>
+    <button type="button" class="btn btn-primary mt-2" onclick="addRow()">➕ Add</button>
 
     <br /><br />
 
-    <button type="submit" class="btn btn-success">💾 Update Sale</button>
+    <button type="submit" class="btn btn-success">Update</button>
 </form>
 
 @section Scripts {
-    <script>
-        function addRow() {
-            var container = document.getElementById('productsContainer');
-            var index = container.children.length;
+<script>
+function addRow() {
+    let container = document.getElementById('productsContainer');
+    let index = container.children.length;
 
-            // Hidden template থেকে option নাও
-            var options = document.getElementById('productOptionsTemplate').innerHTML;
+    let options = `@foreach (var p in ViewBag.Products) {
+        <option value="@p.id">@p.ProductName</option>
+    }`;
 
-            var row = document.createElement('div');
-            row.classList.add('product-row', 'border', 'p-3', 'mb-2');
+    let row = document.createElement('div');
+    row.classList.add('product-row','border','p-3','mb-2');
 
-            row.innerHTML = `
-                <label>Product</label>
-                <select name="SaleDetails[${index}].ProductId" class="form-control">
-                    ${options}
-                </select>
+    row.innerHTML = `
+        <select name="SaleDetails[${index}].ProductId" class="form-control">
+            ${options}
+        </select>
+        <input type="number" name="SaleDetails[${index}].Quantity" class="form-control mt-2"/>
+        <input type="number" name="SaleDetails[${index}].Price" class="form-control mt-2"/>
+        <button type="button" onclick="removeRow(this)" class="btn btn-danger mt-2">Remove</button>
+    `;
 
-                <label class="mt-2">Quantity</label>
-                <input type="number" name="SaleDetails[${index}].Quantity" class="form-control" />
+    container.appendChild(row);
+}
 
-                <label class="mt-2">Price</label>
-                <input type="number" name="SaleDetails[${index}].Price" class="form-control" />
-
-                <button type="button" class="btn btn-danger mt-2" onclick="removeRow(this)">Remove</button>
-            `;
-
-            container.appendChild(row);
-        }
-
-        function removeRow(button) {
-            var row = button.parentElement;
-            var container = document.getElementById('productsContainer');
-
-            if (container.children.length > 1) {
-                row.remove();
-                reIndex();
-            }
-        }
-
-        function reIndex() {
-            var rows = document.querySelectorAll('#productsContainer .product-row');
-
-            rows.forEach((row, index) => {
-                row.querySelectorAll('select, input').forEach(input => {
-                    if (input.name.includes('ProductId'))
-                        input.name = `SaleDetails[${index}].ProductId`;
-
-                    if (input.name.includes('Quantity'))
-                        input.name = `SaleDetails[${index}].Quantity`;
-
-                    if (input.name.includes('Price'))
-                        input.name = `SaleDetails[${index}].Price`;
-                });
-            });
-        }
-    </script>
+function removeRow(btn){
+    let row = btn.parentElement;
+    if(document.querySelectorAll('.product-row').length > 1){
+        row.remove();
+    }
+}
+</script>
 }

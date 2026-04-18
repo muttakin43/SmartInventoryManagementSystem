@@ -8,10 +8,27 @@
     ViewData["BreadcrumbActive"] = "Sale";
 }
 
-<h2>Create Sale</h2>
-
 <form asp-action="Create" method="post">
 
+    <!-- 🔥 Customer -->
+    <div class="form-group">
+        <label>Customer</label>
+        <select name="CustomerId" class="form-control">
+            <option value="">-- Select Customer --</option>
+            @foreach (var c in ViewBag.Customers)
+            {
+                <option value="@c.Id">@c.Name</option>
+            }
+        </select>
+    </div>
+
+    <!-- 🔥 Date -->
+    <div class="form-group mt-2">
+        <label>Sale Date</label>
+        <input type="date" name="SaleDate" class="form-control" />
+    </div>
+
+    <!-- 🔥 Products -->
     <div id="productsContainer"></div>
 
     <button type="button" class="btn btn-primary mt-2" onclick="addRow()">➕ Add Product</button>
@@ -19,16 +36,13 @@
     <br /><br />
 
     <button type="submit" class="btn btn-success">💾 Save Sale</button>
-
 </form>
 
-<!-- 🔥 Hidden Template -->
+<!-- Template -->
 <div id="productTemplate" style="display:none;">
     <div class="product-row border p-3 mb-2">
-
         <label>Product</label>
         <select class="form-control product-select">
-            <option value="">Select Product</option>
             @foreach (var p in ViewBag.Products)
             {
                 <option value="@p.id">@p.ProductName</option>
@@ -42,10 +56,8 @@
         <input type="number" class="form-control price" />
 
         <button type="button" class="btn btn-danger mt-2" onclick="removeRow(this)">Remove</button>
-
     </div>
 </div>
-
 @section Scripts {
 <script>
 

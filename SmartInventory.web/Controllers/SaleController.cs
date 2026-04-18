@@ -9,11 +9,13 @@ namespace SmartInventory.web.Controllers
     {
         private readonly ISaleService _saleService;
         private readonly IProductService _productService;
+        private readonly ICustomerService _customerService;
 
-        public SaleController(ISaleService saleService, IProductService productService)
+        public SaleController(ISaleService saleService, IProductService productService, ICustomerService customerService)
         {
             _saleService = saleService;
             _productService = productService;
+            _customerService = customerService;
         }
 
         // 📋 LIST
@@ -34,14 +36,18 @@ namespace SmartInventory.web.Controllers
         public async Task<IActionResult> Create()
         {
             var products = await _productService.GetallAsync();
+            var customers = await _customerService.GetAllAsync();
+            
+            
 
-            if (!products.Success)
+            if (!products.Success || !customers.Success)
             {
-                TempData["error"] = "Failed to load products";
+                TempData["error"] = "Failed to load data";
                 return RedirectToAction("Index");
             }
 
             ViewBag.Products = products.Data;
+            ViewBag.Customers = customers.Data;
             return View();
         }
 
@@ -52,6 +58,7 @@ namespace SmartInventory.web.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Products = (await _productService.GetallAsync()).Data;
+                ViewBag.Customers = (await _customerService.GetAllAsync()).Data;
                 return View(request);
             }
 
@@ -65,6 +72,7 @@ namespace SmartInventory.web.Controllers
 
             TempData["error"] = result.Error;
             ViewBag.Products = (await _productService.GetallAsync()).Data;
+            ViewBag.Customers = (await _customerService.GetAllAsync()).Data;
 
             return View(request);
         }
@@ -93,13 +101,16 @@ namespace SmartInventory.web.Controllers
             }
 
             var products= await _productService.GetallAsync();
+            var customers = await _customerService.GetAllAsync();
             ViewBag.Product = products.Data;
+            ViewBag.Customer = customers.Data;
 
             var sale = result.Data;
 
             var request = new SaleCreateRequest
             {
                 SaleDate = sale.SaleDate,
+                CustomerId = sale.CustomerId,
                 SaleDetails = sale.SaleDetails.Select(x => new SaleDetailsRequest
                 {
                     ProductId = x.ProductId,
@@ -121,6 +132,8 @@ namespace SmartInventory.web.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Products = (await _productService.GetallAsync()).Data;
+                ViewBag.Customers = (await _customerService.GetAllAsync()).Data;
+                  
                 return View(request);
             }
 
@@ -134,6 +147,7 @@ namespace SmartInventory.web.Controllers
 
             TempData["error"] = result.Error;
             ViewBag.Products = (await _productService.GetallAsync()).Data;
+            ViewBag.Customers = (await _customerService.GetAllAsync()).Data;
 
             return View(request);
         }

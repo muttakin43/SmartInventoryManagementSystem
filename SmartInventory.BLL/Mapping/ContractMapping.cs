@@ -78,6 +78,7 @@ namespace SmartInventory.BLL.Mapping
             {
 
                 SaleDate = request.SaleDate,
+                CustomerId = request.CustomerId,
                 SaleDetails = request.SaleDetails.Select(x => new SaleDetails
                 {
                     ProductId = x.ProductId,
