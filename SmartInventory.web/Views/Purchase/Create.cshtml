@@ -17,7 +17,7 @@
             <option value="">Select Supplier</option>
             @foreach (var s in ViewBag.Suppliers)
             {
-                <option value="@s.Id">@s.Name</option>
+                <option value="@s.id">@s.Name</option>
             }
         </select>
     </div>
@@ -40,7 +40,7 @@
                         <option value="">Select Product</option>
                         @foreach (var p in ViewBag.Products)
                         {
-                            <option value="@p.Id">@p.ProductName</option>
+                            <option value="@p.id">@p.ProductName</option>
                         }
                     </select>
                 </td>
@@ -80,7 +80,7 @@
             <option value="">Select Product</option>
             @foreach (var p in ViewBag.Products)
             {
-                    <option value="@p.Id">@p.ProductName</option>
+                    <option value="@p.id">@p.ProductName</option>
             }
         `;
 

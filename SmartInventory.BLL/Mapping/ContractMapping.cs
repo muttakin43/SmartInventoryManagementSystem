@@ -20,7 +20,7 @@ namespace SmartInventory.BLL.Mapping
                 ProductName = request.Name,
                 Description = request.Description,
                 Price = request.Price,
-                StockQuantity = request.StockQuantit,
+                StockQuantity = request.StockQuantity,
                 CategoryId = request.CategoryId,
                 CreatedTime = DateTime.Now,
                 CreatedBy = 1
