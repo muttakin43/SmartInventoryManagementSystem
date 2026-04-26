@@ -95,105 +95,171 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!--Category Menu-->
-                        <li class="nav-item has-treeview menu-open">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <!-- CATEGORY -->
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-layer-group text-primary"></i>
                                 <p>
-                                    Category
+                                    Category Management
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a asp-action="Index" asp-controller="Category" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>List</p>
+                                        <i class="far fa-list-alt nav-icon text-info"></i>
+                                        <p>All Categories</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a asp-action="Create" asp-controller="Category" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add</p>
+                                        <i class="fas fa-plus-circle nav-icon text-success"></i>
+                                        <p>Create Category</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
 
-                        <!-- Product Menu -->
-                        <li class="nav-item has-treeview menu-open">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <!-- PRODUCT -->
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-box-open text-warning"></i>
                                 <p>
-                                    Product
+                                    Product Inventory
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a asp-action="Index" asp-controller="Product" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>List</p>
+                                        <i class="fas fa-boxes nav-icon text-info"></i>
+                                        <p>All Products</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a asp-action="Create" asp-controller="Product" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add</p>
+                                        <i class="fas fa-plus-square nav-icon text-success"></i>
+                                        <p>Add Product</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
 
-                        <!-- Calendar Menu -->
-                        <li class="nav-item">
-                            <a href="pages/calendar.html" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                <p>
-                                    Calendar
-                                    <span class="badge badge-info right">2</span>
-                                </p>
-                            </a>
-                        </li>
-
-                        <!-- Gallery Menu -->
-                        <li class="nav-item">
-                            <a href="pages/gallery.html" class="nav-link">
-                                <i class="nav-icon far fa-image"></i>
-                                <p>Gallery</p>
-                            </a>
-                        </li>
-
-                        <!-- Mailbox Menu -->
+                        <!-- PURCHASE -->
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-envelope"></i>
+                                <i class="nav-icon fas fa-shopping-cart text-danger"></i>
                                 <p>
-                                    Mailbox
-                                    <i class="fas fa-angle-left right"></i>
+                                    Purchase Control
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="pages/mailbox/mailbox.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Inbox</p>
+                                    <a asp-action="Index" asp-controller="Purchase" class="nav-link">
+                                        <i class="fas fa-receipt nav-icon text-info"></i>
+                                        <p>Purchase History</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/mailbox/compose.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Compose</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/mailbox/read-mail.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Read</p>
+                                    <a asp-action="Create" asp-controller="Purchase" class="nav-link">
+                                        <i class="fas fa-cart-plus nav-icon text-success"></i>
+                                        <p>New Purchase</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+
+                        <!-- CUSTOMER -->
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-users text-purple"></i>
+                                <p>
+                                    Customer Hub
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-action="Index" asp-controller="Customer" class="nav-link">
+                                        <i class="fas fa-user-friends nav-icon text-info"></i>
+                                        <p>Customer Directory</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-action="Create" asp-controller="Customer" class="nav-link">
+                                        <i class="fas fa-user-plus nav-icon text-success"></i>
+                                        <p>Add Customer</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- SALE -->
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-cash-register text-success"></i>
+                                <p>
+                                    Sales Panel
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-action="Index" asp-controller="Sale" class="nav-link">
+                                        <i class="fas fa-file-invoice-dollar nav-icon text-info"></i>
+                                        <p>Sales Records</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-action="Create" asp-controller="Sale" class="nav-link">
+                                        <i class="fas fa-plus nav-icon text-success"></i>
+                                        <p>Create Sale</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- SUPPLIER -->
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-truck text-secondary"></i>
+                                <p>
+                                    Supplier Network
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-action="Index" asp-controller="Supplier" class="nav-link">
+                                        <i class="fas fa-people-carry nav-icon text-info"></i>
+                                        <p>All Suppliers</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-action="Create" asp-controller="Supplier" class="nav-link">
+                                        <i class="fas fa-user-tie nav-icon text-success"></i>
+                                        <p>Add Supplier</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- STOCK TRANSACTION -->
+                        <li class="nav-item">
+                            <a asp-action="Index" asp-controller="StockTransaction" class="nav-link">
+                                <i class="nav-icon fas fa-exchange-alt text-dark"></i>
+                                <p>
+                                    Inventory Movements
+                                </p>
+                            </a>
+                        </li>
+
+
+
+
+                        
+                       
 
                     </ul>
                 </nav>

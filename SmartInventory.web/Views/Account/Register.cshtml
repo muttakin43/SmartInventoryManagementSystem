@@ -1,61 +1,183 @@
 ﻿@model SmartInventory.Contract.Request.Account.RegisterModel
+
 @{
     ViewData["HeaderTitle"] = "Register";
     ViewData["BreadcrumbFirst"] = "Home";
     ViewData["BreadcrumbActive"] = "Register";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card card-info">
-            <div class="card-header">
-                <h3 class="card-title">Register</h3>
+<div class="row justify-content-center" style="min-height:70vh;">
+    <div class="col-lg-6">
+
+        <div class="card shadow-lg border-0 rounded-4">
+
+            <!-- Header -->
+            <div class="card-header text-white text-center"
+                 style="background: linear-gradient(135deg,#28a745,#20c997);">
+                <h4 class="mb-0">
+                    <i class="fas fa-user-plus mr-2"></i> Create Account
+                </h4>
+                <small class="opacity-75">Register to access SmartInventory</small>
             </div>
+
+            <!-- Form -->
             <form asp-action="Register" method="post">
-                <div class="card-body">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card-body p-4">
 
-                    <div class="form-group">
-                        <label asp-for="FirstName" class="control-label"></label>
-                        <input asp-for="FirstName" class="form-control" placeholder="First Name" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger py-2"></div>
+
+                    <!-- Name Row -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-3">
+                            <label asp-for="FirstName" class="font-weight-bold"></label>
+                            <input asp-for="FirstName"
+                                   class="form-control"
+                                   placeholder="First Name" />
+                            <span asp-validation-for="FirstName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group col-md-6 mb-3">
+                            <label asp-for="LastName" class="font-weight-bold"></label>
+                            <input asp-for="LastName"
+                                   class="form-control"
+                                   placeholder="Last Name" />
+                            <span asp-validation-for="LastName" class="text-danger small"></span>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="LastName" class="control-label"></label>
-                        <input asp-for="LastName" class="form-control" placeholder="Last Name" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    <!-- Email -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Email" class="font-weight-bold"></label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-envelope text-success"></i>
+                                </span>
+                            </div>
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   placeholder="Enter your email" />
+                        </div>
+
+                        <span asp-validation-for="Email" class="text-danger small"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" placeholder="Email" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                    <!-- Password -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Password" class="font-weight-bold"></label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-lock text-success"></i>
+                                </span>
+                            </div>
+                            <input asp-for="Password"
+                                   type="password"
+                                   id="password"
+                                   class="form-control"
+                                   placeholder="Password" />
+
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-light"
+                                      onclick="togglePassword('password','icon1')"
+                                      style="cursor:pointer;">
+                                    <i class="fas fa-eye" id="icon1"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <span asp-validation-for="Password" class="text-danger small"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                    <!-- Confirm Password -->
+                    <div class="form-group mb-4">
+                        <label asp-for="ConfirmPassword" class="font-weight-bold"></label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-lock text-success"></i>
+                                </span>
+                            </div>
+                            <input asp-for="ConfirmPassword"
+                                   type="password"
+                                   id="confirmPassword"
+                                   class="form-control"
+                                   placeholder="Confirm Password" />
+
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-light"
+                                      onclick="togglePassword('confirmPassword','icon2')"
+                                      style="cursor:pointer;">
+                                    <i class="fas fa-eye" id="icon2"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="ConfirmPassword" class="control-label"></label>
-                        <input asp-for="ConfirmPassword"  type="password" class="form-control" placeholder="Confirm Password" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
+                    <!-- Button -->
+                    <button type="submit"
+                            class="btn btn-success btn-block rounded-pill py-2">
+                        <i class="fas fa-user-plus mr-1"></i> Register
+                    </button>
+
                 </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-info">Register</button>
-                    <a asp-action="Login" class="btn btn-default float-right">Back to Login</a>
+
+                <!-- Footer -->
+                <div class="card-footer text-center bg-white border-0">
+                    <small>
+                        Already have an account?
+                        <a asp-action="Login" class="text-success font-weight-bold">
+                            Login
+                        </a>
+                    </small>
                 </div>
+
             </form>
         </div>
+
     </div>
 </div>
+
+<style>
+    .card {
+        transition: 0.3s;
+    }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #28a745;
+    }
+</style>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        function togglePassword(inputId, iconId) {
+            var input = document.getElementById(inputId);
+            var icon = document.getElementById(iconId);
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
 }
