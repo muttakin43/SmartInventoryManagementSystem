@@ -2,6 +2,7 @@
 using SmartInventory.BLL.Inteface;
 using SmartInventory.BLL.Model;
 using SmartInventory.Contract.Request;
+using SmartInventory.Model;
 
 namespace SmartInventory.web.Controllers
 {
@@ -88,7 +89,7 @@ namespace SmartInventory.web.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(result.Data);
+            return View(new List<Sale> { result.Data });
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -102,8 +103,8 @@ namespace SmartInventory.web.Controllers
 
             var products= await _productService.GetallAsync();
             var customers = await _customerService.GetAllAsync();
-            ViewBag.Product = products.Data;
-            ViewBag.Customer = customers.Data;
+            ViewBag.Products = products.Data;
+            ViewBag.Customers = customers.Data;
 
             var sale = result.Data;
 
@@ -116,7 +117,7 @@ namespace SmartInventory.web.Controllers
                     ProductId = x.ProductId,
                     Quantity = x.Quantity,
                     Price = x.Price
-                }).ToList()
+                }).ToList() ?? new List<SaleDetailsRequest>()
             };
 
             ViewBag.SaleId = id;

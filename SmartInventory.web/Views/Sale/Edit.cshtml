@@ -6,106 +6,204 @@
     ViewData["BreadcrumbActive"] = "Sale";
 }
 
-<form asp-action="Edit" asp-route-id="@ViewBag.SaleId" method="post">
+<div class="container-fluid">
 
-    <!-- Customer -->
-    <div class="form-group">
-        <label>Customer</label>
-        <select name="CustomerId" class="form-control">
-            @foreach (var c in ViewBag.Customers)
-            {
-                if (c.Id == Model.CustomerId)
-                {
-                    <option value="@c.Id" selected>@c.Name</option>
-                }
-                else
-                {
-                    <option value="@c.Id">@c.Name</option>
-                }
-            }
-        </select>
-    </div>
+    
 
-    <!-- Date -->
-    <div class="form-group mt-2">
-        <label>Date</label>
-        <input type="date" name="SaleDate"
-               value="@Model.SaleDate.ToString("yyyy-MM-dd")"
-               class="form-control" />
-    </div>
+    <form asp-action="Edit" asp-route-id="@ViewBag.SaleId" method="post">
 
-    <div id="productsContainer">
-        @for (int i = 0; i < Model.SaleDetails.Count; i++)
-        {
-            <div class="product-row border p-3 mb-2">
+        <!-- 🔷 MAIN CARD -->
+        <div class="card shadow-sm border-0">
 
-                <label>Product</label>
-                <select name="SaleDetails[@i].ProductId" class="form-control">
-                    @foreach (var p in ViewBag.Products)
+            <div class="card-body">
+
+                <!-- 🔹 CUSTOMER + DATE -->
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Customer</label>
+                        <select name="CustomerId" class="form-select">
+                            @foreach (var c in ViewBag.Customers)
+                            {
+                                if (c.Id == Model.CustomerId)
+                                {
+                                    <option value="@c.Id" selected>@c.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@c.Id">@c.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Sale Date</label>
+                        <input type="date"
+                               name="SaleDate"
+                               value="@Model.SaleDate.ToString("yyyy-MM-dd")"
+                               class="form-control" />
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <!-- 🔹 PRODUCTS HEADER -->
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">Products</h5>
+
+                    <button type="button"
+                            class="btn btn-sm btn-primary"
+                            onclick="addRow()">
+                        + Add Product
+                    </button>
+                </div>
+
+                <!-- 🔹 PRODUCTS -->
+                <div id="productsContainer">
+
+                    @for (int i = 0; i < Model.SaleDetails.Count; i++)
                     {
-                        if (p.id == Model.SaleDetails[i].ProductId)
-                        {
-                            <option value="@p.id" selected>@p.ProductName</option>
-                        }
-                        else
-                        {
-                            <option value="@p.id">@p.ProductName</option>
-                        }
+                        <div class="card border mb-3 product-row">
+
+                            <div class="card-body">
+
+                                <div class="row g-3 align-items-end">
+
+                                    <div class="col-md-5">
+                                        <label class="form-label">Product</label>
+                                        <select name="SaleDetails[@i].ProductId" class="form-select">
+
+                                            @foreach (var p in ViewBag.Products)
+                                            {
+                                                if (p.id == Model.SaleDetails[i].ProductId)
+                                                {
+                                                    <option value="@p.id" selected>@p.ProductName</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@p.id">@p.ProductName</option>
+                                                }
+                                            }
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Qty</label>
+                                        <input type="number"
+                                               name="SaleDetails[@i].Quantity"
+                                               value="@Model.SaleDetails[i].Quantity"
+                                               class="form-control" />
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Price</label>
+                                        <input type="number"
+                                               name="SaleDetails[@i].Price"
+                                               value="@Model.SaleDetails[i].Price"
+                                               class="form-control" />
+                                    </div>
+
+                                    <div class="col-md-1 text-end">
+                                        <button type="button"
+                                                class="btn btn-outline-danger w-100"
+                                                onclick="removeRow(this)">
+                                            ✖
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
                     }
-                </select>
 
-                <label class="mt-2">Qty</label>
-                <input type="number" name="SaleDetails[@i].Quantity"
-                       value="@Model.SaleDetails[i].Quantity"
-                       class="form-control" />
+                </div>
 
-                <label class="mt-2">Price</label>
-                <input type="number" name="SaleDetails[@i].Price"
-                       value="@Model.SaleDetails[i].Price"
-                       class="form-control" />
-
-                <button type="button" class="btn btn-danger mt-2" onclick="removeRow(this)">Remove</button>
             </div>
-        }
-    </div>
 
-    <button type="button" class="btn btn-primary mt-2" onclick="addRow()">➕ Add</button>
+            <!-- 🔷 FOOTER -->
+            <div class="card-footer bg-white d-flex justify-content-end gap-2">
 
-    <br /><br />
+                <a asp-action="Index" class="btn btn-light border">
+                    Cancel
+                </a>
 
-    <button type="submit" class="btn btn-success">Update</button>
-</form>
+                <button type="submit" class="btn btn-success px-4">
+                    Update Sale
+                </button>
 
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+<!-- 🔷 SCRIPT -->
 @section Scripts {
-<script>
-function addRow() {
-    let container = document.getElementById('productsContainer');
-    let index = container.children.length;
+    <script>
 
-    let options = `@foreach (var p in ViewBag.Products) {
-        <option value="@p.id">@p.ProductName</option>
-    }`;
+        function addRow() {
 
-    let row = document.createElement('div');
-    row.classList.add('product-row','border','p-3','mb-2');
+            let container = document.getElementById('productsContainer');
+            let index = container.querySelectorAll('.product-row').length;
 
-    row.innerHTML = `
-        <select name="SaleDetails[${index}].ProductId" class="form-control">
-            ${options}
-        </select>
-        <input type="number" name="SaleDetails[${index}].Quantity" class="form-control mt-2"/>
-        <input type="number" name="SaleDetails[${index}].Price" class="form-control mt-2"/>
-        <button type="button" onclick="removeRow(this)" class="btn btn-danger mt-2">Remove</button>
+            let options = `@foreach (var p in ViewBag.Products)
+            {
+                    <text><option value="@p.id">@p.ProductName</option></text>
+            }
     `;
 
-    container.appendChild(row);
-}
+            let row = document.createElement('div');
+            row.classList.add('card', 'border', 'mb-3', 'product-row');
 
-function removeRow(btn){
-    let row = btn.parentElement;
-    if(document.querySelectorAll('.product-row').length > 1){
-        row.remove();
-    }
-}
-</script>
+            row.innerHTML = `
+                <div class="card-body">
+                    <div class="row g-3 align-items-end">
+
+                        <div class="col-md-5">
+                            <select name="SaleDetails[${index}].ProductId" class="form-select">
+                                ${options}
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <input type="number" name="SaleDetails[${index}].Quantity"
+                                   class="form-control" placeholder="Qty"/>
+                        </div>
+
+                        <div class="col-md-3">
+                            <input type="number" name="SaleDetails[${index}].Price"
+                                   class="form-control" placeholder="Price"/>
+                        </div>
+
+                        <div class="col-md-1 text-end">
+                            <button type="button"
+                                    class="btn btn-outline-danger w-100"
+                                    onclick="removeRow(this)">
+                                ✖
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(row);
+        }
+
+        function removeRow(btn) {
+
+            let rows = document.querySelectorAll('.product-row');
+
+            if (rows.length > 1) {
+                btn.closest('.product-row').remove();
+            }
+        }
+
+    </script>
 }

@@ -6,40 +6,115 @@
     ViewData["BreadCrumbActive"] = "Sale List";
 }
 
-<a asp-action="Create" class="btn btn-primary mb-3">Create Sale</a>
+<div class="container-fluid">
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Customer</th>
-            <th>Total</th>
-            <th>Date</th>
-            <th>Action</th>
-        </tr>
-    </thead>
+    <!-- 🔷 HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h4 class="mb-0">Sales List</h4>
+            <small class="text-muted">Manage all sales records</small>
+        </div>
 
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.id</td>
-                <td>@item.Customer?.Name</td>
-                <td>@item.TotalAmount</td>
-                <td>@item.SaleDate.ToString("dd/MM/yyyy")</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info btn-sm">Details</a>
-                    <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-primary btn-sm">Edit</a>
+        <a asp-action="Create" class="btn btn-primary">
+            + Create Sale
+        </a>
+    </div>
 
-                    <form asp-action="Delete" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="@item.id" />
-                        <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="return confirm('Are you sure?')">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table> 
+    <!-- 🔷 TABLE -->
+    <div class="card shadow-sm">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered align-middle mb-0">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width:60px;">Id</th>
+                            <th>Customer</th>
+                            <th style="width:120px;">Total</th>
+                            <th style="width:140px;">Date</th>
+                            <th style="width:220px;" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model == null || !Model.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    No sales found
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>@item.id</td>
+
+                                    <td>@item.Customer?.Name</td>
+
+                                    <td>
+                                        <span class="fw-semibold">
+                                            ৳ @item.TotalAmount
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        @item.SaleDate.ToString("dd/MM/yyyy")
+                                    </td>
+
+                                    <!-- 🔥 ACTION FIXED (SAME LINE + CENTER) -->
+                                    <td class="text-center">
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <a asp-action="Details"
+                                               asp-route-id="@item.id"
+                                               class="btn btn-sm btn-outline-info">
+                                                Details
+                                            </a>
+
+                                            <a asp-action="Edit"
+                                               asp-route-id="@item.id"
+                                               class="btn btn-sm btn-outline-primary">
+                                                Edit
+                                            </a>
+
+                                            <form asp-action="Delete"
+                                                  method="post"
+                                                  class="m-0">
+
+                                                <input type="hidden" name="id" value="@item.id" />
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Delete this sale?')">
+                                                    Delete
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

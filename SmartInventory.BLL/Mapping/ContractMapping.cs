@@ -61,13 +61,15 @@ namespace SmartInventory.BLL.Mapping
             {
                 SupplierId = request.SupplierId,
                 PurchaseDate = request.purchaseDate,
-                TotalAmount = request.Details.Sum(d => d.Price * d.Quantity),
-                Details = request.Details.Select(d => new PurchaseDetail
-                {
-                    ProductId = d.ProductId,
-                    Quantity = d.Quantity,
-                    Price = d.Price
-                }).ToList()
+
+                Details = request.Details != null
+                    ? request.Details.Select(d => new PurchaseDetail
+                    {
+                        ProductId = d.ProductId,
+                        Quantity = d.Quantity,
+                        Price = d.UnitPrice   
+                    }).ToList()
+                    : new List<PurchaseDetail>()
             };
         }
 

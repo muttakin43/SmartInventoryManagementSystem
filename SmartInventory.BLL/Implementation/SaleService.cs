@@ -67,7 +67,9 @@ public class SaleService : ISaleService
             x => x,
             null,
             null,
-            x => x.Include(s => s.SaleDetails)
+            x => x
+            .Include(s=> s.Customer)
+            .Include(s => s.SaleDetails)
                   .ThenInclude(d => d.Product),
             true
         );
@@ -81,7 +83,9 @@ public class SaleService : ISaleService
             x => x,
             x => x.id == id,
             null,
-            x => x.Include(s => s.SaleDetails)
+            x => x
+             .Include(s => s.Customer)
+            .Include(s => s.SaleDetails)
                   .ThenInclude(d => d.Product),
             false
         );
