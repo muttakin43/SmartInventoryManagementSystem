@@ -95,12 +95,20 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                        <!--Dashboard-->
+                        <li class="nav-item">
+                            <a asp-controller="Home" asp-action="Index" class="nav-link ">
+                                <i class="nav-icon fas fa-tachometer-alt text-info"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
                         <!-- CATEGORY -->
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-layer-group text-primary"></i>
                                 <p>
-                                    Category Management
+                                    Categories
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -125,7 +133,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-box-open text-warning"></i>
                                 <p>
-                                    Product Inventory
+                                    Products
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -150,7 +158,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-shopping-cart text-danger"></i>
                                 <p>
-                                    Purchase Control
+                                    Purchases
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -175,7 +183,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-users text-purple"></i>
                                 <p>
-                                    Customer Hub
+                                    Customers
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -200,7 +208,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-cash-register text-success"></i>
                                 <p>
-                                    Sales Panel
+                                    Sales 
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -225,7 +233,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-truck text-secondary"></i>
                                 <p>
-                                    Supplier Network
+                                    Suppliers
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -250,7 +258,7 @@
                             <a asp-action="Index" asp-controller="StockTransaction" class="nav-link">
                                 <i class="nav-icon fas fa-exchange-alt text-dark"></i>
                                 <p>
-                                    Inventory Movements
+                                    Inventory History
                                 </p>
                             </a>
                         </li>
