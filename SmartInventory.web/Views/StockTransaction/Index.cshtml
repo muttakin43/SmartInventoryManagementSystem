@@ -3,96 +3,143 @@
 @{
     ViewData["HeaderTitle"] = "Stock Transaction History";
     ViewData["BreadCrumbFirst"] = "Home";
-    ViewData["BreadCrumbActive"] = "Stock Transaction ";
+    ViewData["BreadCrumbActive"] = "Stock Transaction";
 }
 
+<div class="card shadow-sm border-0">
 
+    <!-- 🔷 HEADER -->
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">📊 Stock Transaction History</h5>
+    </div>
 
-<!-- 🔍 FILTER SECTION -->
-<form method="get" class="mb-3">
+    <div class="card-body">
 
-    <select name="productId" class="form-control d-inline" style="width:200px;">
-        <option value="">All Products</option>
-        @foreach (var p in ViewBag.Products)
-        {
-            <option value="@p.id">@p.ProductName</option>
-        }
-    </select>
+        <!-- 🔍 FILTER SECTION -->
+        <form method="get" class="row g-2 align-items-end mb-3">
 
-    <select name="type" class="form-control d-inline" style="width:200px;">
-        <option value="">All Type</option>
-        <option value="Purchase">Purchase</option>
-        <option value="Sale">Sale</option>
-        <option value="Purchase Deleted">Purchase Deleted</option>
-        <option value="PURCHASE_UPDATE">Purchase Update</option>
-    </select>
-
-    <button type="submit" class="btn btn-primary">Filter</button>
-
-</form>
-
-<!-- 📊 TABLE -->
-<table id="stockTable" class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Type</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <!-- Product Name -->
-                <td>@item.Product?.ProductName</td>
-
-                <!-- Quantity with color -->
-                <td>
-                    @if (item.Type.Contains("Purchase"))
+            <div class="col-md-4 col-sm-6">
+                <label class="form-label">Product</label>
+                <select name="productId" class="form-select">
+                    <option value="">All Products</option>
+                    @foreach (var p in ViewBag.Products)
                     {
-                        <span class="text-success fw-bold">+ @item.Quantity</span>
+                        <option value="@p.id">@p.ProductName</option>
                     }
-                    else
+                </select>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+                <label class="form-label">Type</label>
+                <select name="type" class="form-select">
+                    <option value="">All Types</option>
+                    <option value="Purchase">Purchase</option>
+                    <option value="Sale">Sale</option>
+                    <option value="Purchase Deleted">Purchase Deleted</option>
+                    <option value="PURCHASE_UPDATE">Purchase Update</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 col-sm-12 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    🔎 Filter
+                </button>
+
+                <a href="" class="btn btn-outline-secondary w-100">
+                    ♻ Reset
+                </a>
+            </div>
+
+        </form>
+
+        <!-- 📊 TABLE -->
+        <div class="table-responsive">
+            <table id="stockTable" class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>📦 Product</th>
+                        <th>📊 Quantity</th>
+                        <th>🏷 Type</th>
+                        <th>🕒 Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
                     {
-                        <span class="text-danger fw-bold">- @item.Quantity</span>
+                        <tr>
+
+                            <!-- Product -->
+                            <td class="fw-semibold">
+                                @item.Product?.ProductName
+                            </td>
+
+                            <!-- Quantity -->
+                            <td>
+                                @if (item.Type.Contains("Purchase"))
+                                {
+                                    <span class="badge bg-success fs-6">
+                                        +@item.Quantity
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger fs-6">
+                                        -@item.Quantity
+                                    </span>
+                                }
+                            </td>
+
+                            <!-- Type -->
+                            <td>
+                                @if (item.Type.Contains("Purchase"))
+                                {
+                                    <span class="badge bg-primary">@item.Type</span>
+                                }
+                                else if (item.Type.Contains("Sale"))
+                                {
+                                    <span class="badge bg-warning text-dark">@item.Type</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">@item.Type</span>
+                                }
+                            </td>
+
+                            <!-- Date -->
+                            <td class="text-muted">
+                                @item.Date.ToString("dd MMM yyyy - hh:mm tt")
+                            </td>
+
+                        </tr>
                     }
-                </td>
+                </tbody>
 
-                <!-- Type -->
-                <td>@item.Type</td>
+            </table>
+        </div>
 
-                <!-- Date -->
-                <td>@item.Date.ToString("dd-MM-yyyy hh:mm tt")</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    </div>
+</div>
 
 @section Scripts {
 
-    <!-- DataTables CSS -->
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
-
-    <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
     <script>
         $(document).ready(function () {
 
-            // 🔥 DataTable enable
             $('#stockTable').DataTable({
-                pageLength: 10
+                pageLength: 10,
+                responsive: true,
+                ordering: true
             });
 
-            // 🔥 Auto filter submit
-            $('select[name="productId"], select[name="type"]').change(function () {
+            // auto submit filter
+            $('select[name="productId"], select[name="type"]').on('change', function () {
                 $(this).closest('form').submit();
             });
 
         });
     </script>
-
 }

@@ -19,8 +19,6 @@ namespace SmartInventory.Contract.Request
         public List<string> Months { get; set; } = new();
         public List<decimal> SalesData { get; set; } = new();
 
-        // Extra
-        public List<Product> LowStockProducts { get; set; } = new();
-        public List<StockTransaction> RecentTransactions { get; set; } = new();
+       
     }
 }
