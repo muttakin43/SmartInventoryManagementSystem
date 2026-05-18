@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartInventory.BLL.Inteface;
 using SmartInventory.Contract.Request;
 using SmartInventory.DAL.Interface;
@@ -6,6 +7,7 @@ using SmartInventory.Model;
 
 namespace SmartInventory.web.Controllers
 {
+    [Authorize]
     public class SupplierController : Controller
     {
         private readonly ISupplierService _supplierService;

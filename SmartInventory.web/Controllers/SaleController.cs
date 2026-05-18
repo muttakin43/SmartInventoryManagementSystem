@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartInventory.BLL.Inteface;
 using SmartInventory.BLL.Model;
 using SmartInventory.Contract.Request;
@@ -6,6 +7,7 @@ using SmartInventory.Model;
 
 namespace SmartInventory.web.Controllers
 {
+    [Authorize]
     public class SaleController : Controller
     {
         private readonly ISaleService _saleService;

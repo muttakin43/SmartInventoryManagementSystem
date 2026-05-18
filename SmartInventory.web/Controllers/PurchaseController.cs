@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartInventory.BLL.Implementation;
 using SmartInventory.BLL.Inteface;
 using SmartInventory.BLL.Model;
@@ -7,6 +8,7 @@ using SmartInventory.Model;
 
 namespace SmartInventory.web.Controllers
 {
+    [Authorize]
     public class PurchaseController : Controller
     {
         private readonly IPurchaseService _purchaseService;

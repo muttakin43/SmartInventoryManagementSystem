@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartInventory.BLL.Inteface;
 using SmartInventory.Model;
 
 namespace SmartInventory.web.Controllers
 {
+    [Authorize]
     public class StockTransactionController : Controller
     {
         private readonly IStockTransactionService _service;

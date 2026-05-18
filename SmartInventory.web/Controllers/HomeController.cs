@@ -1,9 +1,11 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartInventory.web.Models;
 
 namespace SmartInventory.web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -11,6 +13,12 @@ namespace SmartInventory.web.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+        }
+
+        [AllowAnonymous]
+        public IActionResult Landing()
+        {
+            return View();
         }
 
         public IActionResult Index()
