@@ -1,8 +1,19 @@
 ﻿@model SmartInventory.Contract.Request.Account.RegisterModel
 
 @{
-    Layout = "_PublicLayout";
+    Layout = null;
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Account - Inventra</title>
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/plugins/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
 
 <style>
     html, body {
@@ -231,20 +242,20 @@
             letter-spacing: 0.2px;
         }
 
-        .si-field .form-control {
-            width: 100%;
-            height: 34px;
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            padding: 0 12px;
-            color: #f0f6fc;
-            font-size: 13px;
-            outline: none;
-            font-family: inherit;
-            transition: border-color .15s, box-shadow .15s;
-            box-shadow: none;
-        }
+            .si-field .form-control {
+                width: 100%;
+                height: 40px;
+                background: #161b22;
+                border: 1px solid #30363d;
+                border-radius: 6px;
+                padding: 0 12px;
+                color: #f0f6fc;
+                font-size: 13px;
+                outline: none;
+                font-family: inherit;
+                transition: border-color .15s, box-shadow .15s;
+                box-sizing: border-box;
+            }
 
             .si-field .form-control::placeholder {
                 color: #484f58;
@@ -258,14 +269,22 @@
             }
 
     /* Password wrapper */
+
+       
     .si-pw-wrap {
         position: relative;
         display: flex;
         align-items: center;
+            width: 100%;
+           
     }
 
         .si-pw-wrap .form-control {
-            padding-right: 38px;
+                width: 100%;
+                height: 40px;
+                padding-right: 38px;
+                box-sizing: border-box;
+                
         }
 
     .si-pw-toggle {
@@ -439,7 +458,7 @@
     <main class="si-right">
         <div class="si-form-box">
 
-            <div class="si-form-header">
+            <div class="si-form-header  text-center">
                 <h1>Create your account</h1>
                 <p>Already have an account? <a asp-action="Login">Sign in</a></p>
             </div>
@@ -452,12 +471,12 @@
                 <div class="si-field-row">
                     <div class="si-field">
                         <label asp-for="FirstName">First name</label>
-                        <input asp-for="FirstName" class="form-control" placeholder="John" autocomplete="given-name" />
+                        <input asp-for="FirstName" class="form-control" placeholder="FirstName" autocomplete="given-name" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="si-field">
                         <label asp-for="LastName">Last name</label>
-                        <input asp-for="LastName" class="form-control" placeholder="Doe" autocomplete="family-name" />
+                        <input asp-for="LastName" class="form-control" placeholder="LastName" autocomplete="family-name" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
@@ -465,7 +484,7 @@
                 <!-- Email -->
                 <div class="si-field">
                     <label asp-for="Email">Email address</label>
-                    <input asp-for="Email" class="form-control" placeholder="john@company.com" autocomplete="email" />
+                    <input asp-for="Email" class="form-control" placeholder="Email" autocomplete="email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
@@ -474,7 +493,7 @@
                     <label asp-for="Password">Password</label>
                     <div class="si-pw-wrap">
                         <input asp-for="Password" type="password" id="password" class="form-control"
-                               placeholder="Min. 8 characters" autocomplete="new-password" />
+                               placeholder="Enter your password" autocomplete="new-password" />
                         <button type="button" class="si-pw-toggle"
                                 onclick="togglePassword('password','icon1show','icon1hide')"
                                 aria-label="Toggle password visibility">
@@ -528,10 +547,12 @@
 
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
 
     <script>
         function togglePassword(inputId, showIconId, hideIconId) {
@@ -551,3 +572,5 @@
         }
     </script>
 }
+</body>
+</html>

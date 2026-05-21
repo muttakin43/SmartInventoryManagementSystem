@@ -3,40 +3,83 @@
     ViewData["Title"] = "Welcome";
 }
 
-<section class="hero">
+<section class="hero d-flex align-items-center" style="min-height: 90vh;">
 
-    <div class="container text-center">
+    <div class="container">
 
-        <h1 class="hero-title">
-            Smart Inventory
-            <br />
-            Management System
-        </h1>
+        <div class="row align-items-center">
 
-        <p class="hero-text mt-4">
+            <!-- LEFT CONTENT -->
+            <div class="col-md-6 text-md-left text-center">
 
-            Manage products, sales, suppliers,
-            purchases and inventory easily.
+                <h1 class="hero-title mb-4">
+                    Smart Inventory<br />
+                    Management System
+                </h1>
 
-        </p>
+                <p class="hero-text mb-5">
+                    Manage products, stock, suppliers, sales and reports in one powerful system.
+                    Fast, secure and scalable inventory control for modern businesses.
+                </p>
 
-        <div class="mt-5">
+                <div>
 
-            <a asp-controller="Account"
-               asp-action="Register"
-               class="btn btn-success btn-lg mr-3">
+                    <a asp-controller="Account"
+                       asp-action="Register"
+                       class="btn btn-success btn-lg mr-3">
 
-                Get Started
+                        Get Started
 
-            </a>
+                    </a>
 
-            <a asp-controller="Account"
-               asp-action="Login"
-               class="btn btn-outline-light btn-lg">
+                    <a asp-controller="Account"
+                       asp-action="Login"
+                       class="btn btn-outline-light btn-lg">
 
-                Sign In
+                        Sign In
 
-            </a>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT MOCKUP -->
+            <div class="col-md-6 text-center d-none d-md-block">
+
+                <div class="card p-4 shadow-lg" style="border-radius: 18px; background: rgba(22,27,34,.8);">
+
+                    <h5 class="mb-3">Live Dashboard Preview</h5>
+
+                    <div class="mb-3">
+                        <i class="fas fa-chart-line fa-3x text-success"></i>
+                    </div>
+
+                    <p class="text-muted">
+                        Real-time stock, sales & analytics dashboard
+                    </p>
+
+                    <div class="row mt-4">
+
+                        <div class="col-6">
+                            <div class="card p-2">
+                                <small>Products</small>
+                                <h4>1200+</h4>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card p-2">
+                                <small>Orders</small>
+                                <h4>350+</h4>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -45,67 +88,447 @@
 </section>
 
 
-<section class="py-5">
+
+<section id="features" class="py-5">
 
     <div class="container">
 
         <div class="text-center mb-5">
-
-            <h2 class="font-weight-bold">
-                Powerful Features
-            </h2>
-
-            <p class="text-muted">
-                Everything you need to manage inventory smarter.
-            </p>
-
+            <h2 class="font-weight-bold">Powerful Features</h2>
+            <p class="text-muted">Everything you need to manage inventory smarter</p>
         </div>
 
         <div class="row">
 
             <div class="col-md-4 mb-4">
-
                 <div class="card p-4 h-100">
-
                     <i class="fas fa-box fa-2x text-primary mb-3"></i>
+                    <h5>Inventory Tracking</h5>
+                    <p class="text-muted">Track stock in real-time with alerts.</p>
+                </div>
+            </div>
 
-                    <h4>Inventory Tracking</h4>
+            <div class="col-md-4 mb-4">
+                <div class="card p-4 h-100">
+                    <i class="fas fa-shopping-cart fa-2x text-success mb-3"></i>
+                    <h5>Sales Management</h5>
+                    <p class="text-muted">Manage all sales and transactions easily.</p>
+                </div>
+            </div>
 
+            <div class="col-md-4 mb-4">
+                <div class="card p-4 h-100">
+                    <i class="fas fa-truck fa-2x text-warning mb-3"></i>
+                    <h5>Supplier Control</h5>
+                    <p class="text-muted">Handle suppliers and purchase orders.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="workflow" class="py-5">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="font-weight-bold">How Inventra Works</h2>
+            <p class="text-muted">Simple 4-step workflow to manage your inventory</p>
+        </div>
+
+        <div class="row text-center">
+
+            <!-- STEP 1 -->
+            <div class="col-md-3 mb-4">
+                <div class="card p-4 h-100">
+                    <i class="fas fa-box fa-3x text-primary mb-3"></i>
+                    <h5>1. Add Products</h5>
                     <p class="text-muted">
-                        Track products and stock levels in real-time.
+                        Add all your products with details, price and stock info.
                     </p>
+                </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="col-md-3 mb-4">
+                <div class="card p-4 h-100">
+                    <i class="fas fa-truck-loading fa-3x text-warning mb-3"></i>
+                    <h5>2. Stock In</h5>
+                    <p class="text-muted">
+                        Purchase or receive stock from suppliers.
+                    </p>
+                </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="col-md-3 mb-4">
+                <div class="card p-4 h-100">
+                    <i class="fas fa-shopping-cart fa-3x text-success mb-3"></i>
+                    <h5>3. Sales</h5>
+                    <p class="text-muted">
+                        Sell products and system automatically updates stock.
+                    </p>
+                </div>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="col-md-3 mb-4">
+                <div class="card p-4 h-100">
+                    <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
+                    <h5>4. Reports</h5>
+                    <p class="text-muted">
+                        Get real-time analytics and business reports.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="demo" class="py-5">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="font-weight-bold">Live Dashboard Preview</h2>
+            <p class="text-muted">
+                See how Inventra helps you manage inventory in real time
+            </p>
+        </div>
+
+        <div class="row align-items-center">
+
+            <!-- LEFT INFO -->
+            <div class="col-md-5 mb-4">
+
+                <h4 class="mb-3">Real-time Smart Dashboard</h4>
+
+                <p class="text-muted">
+                    Track stock, monitor sales, manage suppliers and view analytics all in one place.
+                    Designed for speed, accuracy and business control.
+                </p>
+
+                <ul class="list-unstyled mt-4">
+
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success mr-2"></i>
+                        Live stock updates
+                    </li>
+
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success mr-2"></i>
+                        Sales analytics charts
+                    </li>
+
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success mr-2"></i>
+                        Low stock alerts
+                    </li>
+
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success mr-2"></i>
+                        Supplier tracking
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <!-- RIGHT MOCKUP -->
+            <div class="col-md-7">
+
+                <div class="card p-4 shadow-lg" style="border-radius:18px; background: rgba(22,27,34,.85);">
+
+                    <!-- Top bar -->
+                    <div class="d-flex justify-content-between mb-3">
+                        <h5 class="mb-0">Dashboard Overview</h5>
+                        <small class="text-muted">Live Data</small>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="row text-center">
+
+                        <div class="col-4">
+                            <h4 class="text-primary">1,250</h4>
+                            <small>Products</small>
+                        </div>
+
+                        <div class="col-4">
+                            <h4 class="text-success">320</h4>
+                            <small>Orders</small>
+                        </div>
+
+                        <div class="col-4">
+                            <h4 class="text-warning">85%</h4>
+                            <small>Stock Level</small>
+                        </div>
+
+                    </div>
+
+                    <hr style="border-color:#30363d;" />
+
+                    <!-- Fake chart -->
+                    <div class="text-center py-4">
+
+                        <i class="fas fa-chart-line fa-4x text-success"></i>
+
+                        <p class="text-muted mt-3">
+                            Sales & Stock Analytics Visualization
+                        </p>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            <div class="col-md-4 mb-4">
+        </div>
 
-                <div class="card p-4 h-100">
+    </div>
 
-                    <i class="fas fa-chart-line fa-2x text-success mb-3"></i>
+</section>
 
-                    <h4>Analytics</h4>
+<section id="docs" class="py-5">
 
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="font-weight-bold">Documentation</h2>
+            <p class="text-muted">
+                Everything you need to understand and use Inventra
+            </p>
+        </div>
+
+        <div class="row">
+
+            <!-- CARD 1 -->
+            <div class="col-md-3 mb-4">
+                <div class="card p-4 h-100 text-center">
+                    <i class="fas fa-rocket fa-2x text-primary mb-3"></i>
+                    <h5>Getting Started</h5>
                     <p class="text-muted">
-                        Powerful reports and sales analytics dashboard.
+                        Learn how to start using Inventra in minutes.
                     </p>
-
+                    <a href="#" class="btn btn-sm btn-outline-light mt-2">
+                        Read More
+                    </a>
                 </div>
-
             </div>
 
-            <div class="col-md-4 mb-4">
-
-                <div class="card p-4 h-100">
-
-                    <i class="fas fa-user-shield fa-2x text-info mb-3"></i>
-
-                    <h4>Secure Access</h4>
-
+            <!-- CARD 2 -->
+            <div class="col-md-3 mb-4">
+                <div class="card p-4 h-100 text-center">
+                    <i class="fas fa-cogs fa-2x text-success mb-3"></i>
+                    <h5>Setup Guide</h5>
                     <p class="text-muted">
-                        JWT authentication and role-based security.
+                        Database, configuration and installation steps.
                     </p>
+                    <a href="#" class="btn btn-sm btn-outline-light mt-2">
+                        Read More
+                    </a>
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="col-md-3 mb-4">
+                <div class="card p-4 h-100 text-center">
+                    <i class="fas fa-code fa-2x text-warning mb-3"></i>
+                    <h5>API Reference</h5>
+                    <p class="text-muted">
+                        REST API endpoints and authentication guide.
+                    </p>
+                    <a href="#" class="btn btn-sm btn-outline-light mt-2">
+                        Read More
+                    </a>
+                </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="col-md-3 mb-4">
+                <div class="card p-4 h-100 text-center">
+                    <i class="fas fa-shield-alt fa-2x text-info mb-3"></i>
+                    <h5>Security</h5>
+                    <p class="text-muted">
+                        Role-based access and JWT authentication system.
+                    </p>
+                    <a href="#" class="btn btn-sm btn-outline-light mt-2">
+                        Read More
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<section id="pricing" class="py-5">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="font-weight-bold">Pricing Plans</h2>
+            <p class="text-muted">Choose a plan that fits your business</p>
+        </div>
+
+        <div class="row text-center">
+
+            <!-- FREE -->
+            <div class="col-md-4 mb-4">
+                <div class="card p-4 h-100">
+                    <h5>Free</h5>
+                    <h2>$0</h2>
+                    <p class="text-muted">Basic inventory features</p>
+
+                    <ul class="list-unstyled">
+                        <li>✔ 100 Products</li>
+                        <li>✔ Basic Reports</li>
+                        <li>✔ Single User</li>
+                    </ul>
+
+                    <a href="#" class="btn btn-outline-light mt-3">Start Free</a>
+                </div>
+            </div>
+
+            <!-- PRO -->
+            <div class="col-md-4 mb-4">
+                <div class="card p-4 h-100 border border-success">
+                    <h5>Pro</h5>
+                    <h2>$9</h2>
+                    <p class="text-muted">For growing businesses</p>
+
+                    <ul class="list-unstyled">
+                        <li>✔ Unlimited Products</li>
+                        <li>✔ Advanced Reports</li>
+                        <li>✔ Multi Users</li>
+                    </ul>
+
+                    <a href="#" class="btn btn-success mt-3">Get Pro</a>
+                </div>
+            </div>
+
+            <!-- ENTERPRISE -->
+            <div class="col-md-4 mb-4">
+                <div class="card p-4 h-100">
+                    <h5>Enterprise</h5>
+                    <h2>Custom</h2>
+                    <p class="text-muted">For large organizations</p>
+
+                    <ul class="list-unstyled">
+                        <li>✔ Custom Features</li>
+                        <li>✔ Dedicated Support</li>
+                        <li>✔ API Access</li>
+                    </ul>
+
+                    <a href="#" class="btn btn-outline-light mt-3">Contact Sales</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<section id="api" class="py-5 bg-dark">
+
+    <div class="container text-center">
+
+        <h2 class="font-weight-bold">Developer API</h2>
+        <p class="text-muted">
+            Integrate Inventra with your own system using our REST API
+        </p>
+
+        <div class="card p-4 mt-4 text-left">
+
+            <h5>Sample Endpoint</h5>
+
+            <code>
+                GET /api/products<br>
+                POST /api/products<br>
+                GET /api/orders
+            </code>
+
+            <hr style="border-color:#30363d;" />
+
+            <p class="text-muted">
+                ✔ JWT Authentication<br>
+                ✔ JSON Response<br>
+                ✔ Secure REST API<br>
+                ✔ CRUD Operations
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<section id="about" class="py-5">
+
+    <div class="container text-center">
+
+        <h2 class="font-weight-bold">About Inventra</h2>
+
+        <p class="text-muted mt-3">
+            Inventra is a smart inventory management system built with ASP.NET Core.
+            It helps businesses track products, manage stock, and analyze sales efficiently.
+        </p>
+
+        <div class="row mt-5">
+
+            <div class="col-md-4">
+                <h5>🚀 Fast</h5>
+                <p class="text-muted">Optimized for performance and speed</p>
+            </div>
+
+            <div class="col-md-4">
+                <h5>🔐 Secure</h5>
+                <p class="text-muted">JWT + Role-based authentication</p>
+            </div>
+
+            <div class="col-md-4">
+                <h5>📊 Smart</h5>
+                <p class="text-muted">Real-time analytics & reports</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<section id="contact" class="py-5 bg-dark">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="font-weight-bold">Contact Us</h2>
+            <p class="text-muted">We are here to help you</p>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-6">
+
+                <div class="card p-4">
+
+                    <form>
+
+                        <input type="text" class="form-control mb-3" placeholder="Your Name" />
+
+                        <input type="email" class="form-control mb-3" placeholder="Email" />
+
+                        <textarea class="form-control mb-3" rows="4" placeholder="Message"></textarea>
+
+                        <button class="btn btn-success btn-block">
+                            Send Message
+                        </button>
+
+                    </form>
 
                 </div>
 

@@ -1,8 +1,17 @@
 ﻿@model SmartInventory.Contract.Request.Account.LoginModel
 
 @{
-    Layout = "_PublicLayout";
+    Layout = null;
+    
 }
+<!DOCTYPE html>
+<html>
+<head>
+   
+    <title>Sign In - Inventra</title>
+    
+</head>
+<body>
 
 <style>
     html, body {
@@ -217,9 +226,12 @@
         }
 
     /* Fields */
-    .si-field {
-        margin-bottom: 14px;
-    }
+        .si-field {
+            margin-bottom: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
 
         .si-field label {
             display: flex;
@@ -232,20 +244,22 @@
             letter-spacing: 0.2px;
         }
 
-        .si-field .form-control {
-            width: 100%;
-            height: 34px;
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            padding: 0 12px;
-            color: #f0f6fc;
-            font-size: 13px;
-            outline: none;
-            font-family: inherit;
-            transition: border-color .15s, box-shadow .15s;
-            box-shadow: none;
-        }
+            .si-field .form-control {
+                width: 100%;
+                height: 34px;
+                background: #161b22;
+                border: 1px solid #30363d;
+                border-radius: 6px;
+                padding: 0 12px;
+                color: #f0f6fc;
+                font-size: 13px;
+                outline: none;
+                font-family: inherit;
+                transition: border-color .15s, box-shadow .15s;
+                box-shadow: none;
+                box-sizing: border-box; /* এটা যোগ করুন */
+            }
+
 
             .si-field .form-control::placeholder {
                 color: #484f58;
@@ -259,28 +273,27 @@
             }
 
     /* Password wrapper */
-    .si-pw-wrap {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-
+        .si-pw-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%; 
+            box-sizing: border-box; 
+        }
         .si-pw-wrap .form-control {
             padding-right: 38px;
         }
 
-    .si-pw-toggle {
-        position: absolute;
-        right: 10px;
-        background: none;
-        border: none;
-        color: #6e7681;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        padding: 0;
-        transition: color .15s;
-    }
+        .si-pw-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
 
         .si-pw-toggle:hover {
             color: #e6edf3;
@@ -425,41 +438,40 @@
                     <label asp-for="Email">Email address</label>
                     <input asp-for="Email"
                            class="form-control"
-                           placeholder="john@company.com"
+                           placeholder="Enter your email"
                            autocomplete="email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <!-- Password -->
-                <div class="si-field">
-                    <label asp-for="Password">
-                        <span>Password</span>
-                        <a href="#" class="si-forgot">Forgot password?</a>
-                    </label>
-                    <div class="si-pw-wrap">
-                        <input asp-for="Password"
-                               type="password"
-                               id="passwordInput"
-                               class="form-control"
-                               placeholder="Enter your password"
-                               autocomplete="current-password" />
-                        <button type="button"
-                                class="si-pw-toggle"
-                                onclick="togglePassword()"
-                                aria-label="Toggle password visibility">
-                            <svg id="eyeShow" viewBox="0 0 24 24">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                <circle cx="12" cy="12" r="3" />
-                            </svg>
-                            <svg id="eyeHide" viewBox="0 0 24 24" style="display:none">
-                                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
-                                <line x1="1" y1="1" x2="23" y2="23" />
-                            </svg>
-                        </button>
+                    <div class="si-field">
+                        <label asp-for="Password">
+                            <span>Password</span>
+                            <a href="#" class="si-forgot">Forgot password?</a>
+                        </label>
+                        <div class="si-pw-wrap">
+                            <input asp-for="Password"
+                                   type="password"
+                                   id="passwordInput"
+                                   class="form-control"
+                                   placeholder="Enter your password"
+                                   autocomplete="current-password" />
+                            <button type="button"
+                                    class="si-pw-toggle"
+                                    onclick="togglePassword()"
+                                    aria-label="Toggle password visibility">
+                                <svg id="eyeShow" viewBox="0 0 24 24">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                                <svg id="eyeHide" viewBox="0 0 24 24" style="display:none">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+                                    <line x1="1" y1="1" x2="23" y2="23" />
+                                </svg>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-
                 <!-- Remember me -->
                 <div class="si-row-between">
                     <label class="si-remember">
@@ -483,10 +495,7 @@
 
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+
 
     <script>
         function togglePassword() {
@@ -506,3 +515,5 @@
         }
     </script>
 }
+</body>
+</html>
