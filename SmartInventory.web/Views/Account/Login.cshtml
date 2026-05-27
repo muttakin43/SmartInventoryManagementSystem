@@ -185,6 +185,7 @@
 
     .si-form-header {
         margin-bottom: 1.75rem;
+            text-align: center;
     }
 
         .si-form-header h1 {
@@ -415,6 +416,7 @@
         }
     }
 </style>
+   
 
 <div class="si-login-page">
 
@@ -424,10 +426,27 @@
     <main class="si-right">
         <div class="si-form-box">
 
-            <div class="si-form-header  text-center">
+            <div class="si-form-header ">
                 <h1>Sign in to your account</h1>
                 <p>Don't have an account? <a asp-action="Register">Create one</a></p>
             </div>
+                <!-- ✅ Success message এখানে রাখুন — form এর উপরে -->
+                @if (TempData["Success"] != null)
+                {
+                    <div style="background:#0d1f0d; border:1px solid #238636; border-radius:6px;
+                                padding:10px 14px; font-size:13px; color:#3fb950; margin-bottom:14px;">
+                        ✅ @TempData["Success"]
+                    </div>
+                }
+
+                <!-- ✅ Error message -->
+                @if (TempData["Error"] != null)
+                {
+                    <div style="background:#160b0b; border:1px solid #6e2222; border-radius:6px;
+                                padding:10px 14px; font-size:13px; color:#f85149; margin-bottom:14px;">
+                        ❌ @TempData["Error"]
+                    </div>
+                }
 
             <form asp-action="Login" method="post">
 
@@ -447,7 +466,9 @@
                     <div class="si-field">
                         <label asp-for="Password">
                             <span>Password</span>
-                            <a href="#" class="si-forgot">Forgot password?</a>
+                            <a asp-action="ForgotPassword" asp-controller="Account" class="si-forgot">
+                                Forgot password?
+                            </a>
                         </label>
                         <div class="si-pw-wrap">
                             <input asp-for="Password"

@@ -40,7 +40,8 @@ namespace SmartInventory.web
             services.AddScoped<ISaleService, SaleService>();
             services.AddScoped<IStockTransactionService, StockTransactionService>();
             services.AddScoped<ICustomerService, CustomerService>();
-            
+            services.AddScoped<IEmailService, EmailService>();
+
 
             return services;
         }

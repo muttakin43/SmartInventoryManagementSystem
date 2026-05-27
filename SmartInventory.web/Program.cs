@@ -44,6 +44,8 @@ builder.Services.ConfigureApplicationCookie(options=>
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();
+builder.Configuration["Email:Password"] =
+    Environment.GetEnvironmentVariable("EMAIL_PASSWORD") ?? "";
 
 var app = builder.Build();
 
